@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- 仅 Android：避免 .NET 9 SDK 对 net8.0-ios/maccatalyst 的 NETSDK1202 错误导致 VS 卡住 -->
     <TargetFrameworks>net8.0-android</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>FoodExplorer</RootNamespace>

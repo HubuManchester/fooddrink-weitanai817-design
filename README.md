@@ -1,4 +1,4 @@
-# 🍜 FoodExplorer — 美食探索与记录 App
+# 🍜 FoodExplorer — Food Discovery & Recording App
 
 **Module:** 6G6Z0014 – Mobile Computing  
 **Assessment:** 1CWK100 – Developing a Cross-Platform Mobile App  
@@ -112,6 +112,5 @@ This app follows **WCAG 2.1 AA** guidelines:
 ---
 
 ## 👤 Author
-
+ZixuanLiu
 Student submission for Manchester Metropolitan University  
-Department of Computing and Mathematics
