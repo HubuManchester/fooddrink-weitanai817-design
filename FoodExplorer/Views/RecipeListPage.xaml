@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodExplorer.Views.RecipeListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:FoodExplorer.Controls"
+    xmlns:models="clr-namespace:FoodExplorer.Models"
+    xmlns:vm="clr-namespace:FoodExplorer.ViewModels"
+    xmlns:converters="clr-namespace:FoodExplorer.Converters"
+    Title="{Binding Title}"
+    x:DataType="vm:RecipeListViewModel"
+    BackgroundColor="{AppThemeBinding Light=#FFF8F5, Dark=#1A1A2E}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="../Resources/Styles/Typography.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid Padding="16" RowDefinitions="Auto,Auto,*" RowSpacing="12">
+
+        <SearchBar
+            Grid.Row="0"
+            Placeholder="Search recipes…"
+            Text="{Binding SearchQuery}"
+            MinimumHeightRequest="44"
+            SemanticProperties.Description="Search recipes by name or category" />
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                FontSize="14"
+                Text="{Binding ResultCountText}"
+                TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="Transparent"
+                Command="{Binding ClearSearchCommand}"
+                FontSize="14"
+                IsVisible="{Binding SearchQuery, Converter={StaticResource StringNotEmptyConverter}}"
+                MinimumHeightRequest="44"
+                Text="Clear"
+                TextColor="{StaticResource Primary}"
+                SemanticProperties.Description="Clear search query" />
+        </Grid>
+
+        <ActivityIndicator
+            Grid.Row="2"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center"
+            Color="{StaticResource Primary}" />
+
+        <CollectionView
+            Grid.Row="2"
+            IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+            ItemsSource="{Binding Recipes}"
+            SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout HorizontalItemSpacing="12" Orientation="Vertical" Span="2" VerticalItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" Padding="40" Spacing="12" VerticalOptions="Center">
+                    <Label
+                        FontSize="48"
+                        HorizontalOptions="Center"
+                        Text="🍽️" />
+                    <Label
+                        FontFamily="OpenSansSemibold"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="No recipes found"
+                        SemanticProperties.HeadingLevel="Level2" />
+                    <Label
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        Text="Try adjusting your search or browse all categories"
+                        TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:RecipeSummary">
+                    <controls:RecipeCardView
+                        Recipe="{Binding .}"
+                        TapCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenRecipeCommand}"
+                        TapCommandParameter="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

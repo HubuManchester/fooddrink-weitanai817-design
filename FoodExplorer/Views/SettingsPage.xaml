@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodExplorer.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:FoodExplorer.Models"
+    xmlns:vm="clr-namespace:FoodExplorer.ViewModels"
+    xmlns:converters="clr-namespace:FoodExplorer.Converters"
+    Title="{Binding Title}"
+    x:DataType="vm:SettingsViewModel"
+    BackgroundColor="{AppThemeBinding Light=#FFF8F5, Dark=#1A1A2E}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="../Resources/Styles/Typography.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:FontSizeDisplayConverter x:Key="FontSizeDisplayConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="24">
+
+            <Label
+                Style="{StaticResource TitleMedium}"
+                Text="⚙️ Settings"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <!-- Appearance -->
+            <Border Style="{StaticResource CardBorder}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Style="{StaticResource TitleSmall}" Text="Appearance" SemanticProperties.HeadingLevel="Level2" />
+
+                    <Grid ColumnDefinitions="*,Auto" MinimumHeightRequest="44">
+                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                            <Label
+                                FontFamily="OpenSansSemibold"
+                                FontSize="16"
+                                Text="Dark Mode" />
+                            <Label
+                                FontSize="12"
+                                Text="Switch between light and dark themes"
+                                TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </VerticalStackLayout>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding IsDarkMode}"
+                            MinimumHeightRequest="44"
+                            OnColor="{StaticResource Primary}"
+                            SemanticProperties.Description="Toggle dark mode" />
+                    </Grid>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label
+                            FontFamily="OpenSansSemibold"
+                            FontSize="16"
+                            Text="Font Size" />
+                        <Picker
+                            ItemDisplayBinding="{Binding ., Converter={StaticResource FontSizeDisplayConverter}}"
+                            ItemsSource="{Binding FontSizeOptions}"
+                            SelectedItem="{Binding SelectedFontSize}"
+                            MinimumHeightRequest="44"
+                            SemanticProperties.Description="Select font size" />
+                        <Label
+                            FontSize="16"
+                            Text="{Binding FontSizePreview}"
+                            TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Accessibility -->
+            <Border Style="{StaticResource CardBorder}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Style="{StaticResource TitleSmall}" Text="Accessibility" SemanticProperties.HeadingLevel="Level2" />
+
+                    <Grid ColumnDefinitions="*,Auto" MinimumHeightRequest="44">
+                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                            <Label FontFamily="OpenSansSemibold" FontSize="16" Text="Reduce Motion" />
+                            <Label FontSize="12" Text="Minimise animations for comfort" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </VerticalStackLayout>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding ReduceMotion}"
+                            MinimumHeightRequest="44"
+                            OnColor="{StaticResource Primary}"
+                            SemanticProperties.Description="Toggle reduce motion" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" MinimumHeightRequest="44">
+                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                            <Label FontFamily="OpenSansSemibold" FontSize="16" Text="High Contrast" />
+                            <Label FontSize="12" Text="Increase colour contrast for readability" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </VerticalStackLayout>
+                        <Switch
+                            Grid.Column="1"
+                            IsToggled="{Binding HighContrast}"
+                            MinimumHeightRequest="44"
+                            OnColor="{StaticResource Primary}"
+                            SemanticProperties.Description="Toggle high contrast mode" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- About -->
+            <Border Style="{StaticResource CardBorder}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource TitleSmall}" Text="About" SemanticProperties.HeadingLevel="Level2" />
+                    <Label FontSize="14" Text="FoodExplorer v1.0" />
+                    <Label
+                        FontSize="12"
+                        Text="MMU — Mobile Computing Assessment"
+                        TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button
+                Command="{Binding ResetSettingsCommand}"
+                Style="{StaticResource SecondaryButton}"
+                Text="Reset to Defaults"
+                SemanticProperties.Description="Reset all settings to default values" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

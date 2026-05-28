@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="FoodExplorer.Controls.RecipeCardView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:FoodExplorer.Models"
+    xmlns:converters="clr-namespace:FoodExplorer.Converters"
+    x:DataType="models:RecipeSummary">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="../Resources/Styles/Typography.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:DifficultyToColorConverter x:Key="DifficultyToColorConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Border Style="{StaticResource CardBorder}" Padding="0">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TapCommand}"
+                CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TapCommandParameter}" />
+        </Border.GestureRecognizers>
+
+        <Grid RowDefinitions="140,Auto" RowSpacing="0">
+            <Image
+                Grid.Row="0"
+                Aspect="AspectFill"
+                Source="{Binding ImageUri}"
+                SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
+
+            <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="6">
+                <Label
+                    FontFamily="OpenSansSemibold"
+                    FontSize="16"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1"
+                    Text="{Binding Name}"
+                    TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <Label
+                    FontSize="12"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="2"
+                    Text="{Binding Description}"
+                    TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                    <Label
+                        Grid.Column="0"
+                        FontSize="12"
+                        Text="{Binding TotalTimeDisplay}"
+                        TextColor="{StaticResource Primary}" />
+                    <Label
+                        Grid.Column="1"
+                        FontSize="12"
+                        Text="{Binding Rating, StringFormat='★ {0:F1}'}"
+                        TextColor="{StaticResource AccentDark}" />
+                    <Border
+                        Grid.Column="2"
+                        BackgroundColor="{Binding Difficulty, Converter={StaticResource DifficultyToColorConverter}}"
+                        Padding="8,2"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 8">
+                        <Label
+                            FontSize="10"
+                            Text="{Binding DifficultyDisplay}"
+                            TextColor="{StaticResource White}" />
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+
+</ContentView>

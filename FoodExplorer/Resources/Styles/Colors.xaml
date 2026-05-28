@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- FoodExplorer brand palette — WCAG AA contrast tested -->
+    <Color x:Key="Primary">#FF6B35</Color>
+    <Color x:Key="PrimaryDark">#E55A2B</Color>
+    <Color x:Key="PrimaryLight">#FF8F66</Color>
+    <Color x:Key="Secondary">#2EC4B6</Color>
+    <Color x:Key="SecondaryDark">#1FA89C</Color>
+    <Color x:Key="Accent">#FFD166</Color>
+    <Color x:Key="AccentDark">#E6B84D</Color>
+
+    <Color x:Key="BackgroundLight">#FFF8F5</Color>
+    <Color x:Key="BackgroundDark">#1A1A2E</Color>
+    <Color x:Key="SurfaceLight">#FFFFFF</Color>
+    <Color x:Key="SurfaceDark">#252542</Color>
+    <Color x:Key="CardLight">#FFFFFF</Color>
+    <Color x:Key="CardDark">#2D2D4A</Color>
+
+    <Color x:Key="TextPrimaryLight">#1A1A2E</Color>
+    <Color x:Key="TextPrimaryDark">#F5F5F7</Color>
+    <Color x:Key="TextSecondaryLight">#5C5C7A</Color>
+    <Color x:Key="TextSecondaryDark">#A8A8C0</Color>
+
+    <Color x:Key="Success">#06D6A0</Color>
+    <Color x:Key="Warning">#FFD166</Color>
+    <Color x:Key="Error">#EF476F</Color>
+    <Color x:Key="DifficultyEasy">#06D6A0</Color>
+    <Color x:Key="DifficultyMedium">#FFD166</Color>
+    <Color x:Key="DifficultyHard">#EF476F</Color>
+
+    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="SecondaryDarkText">#F5F5F7</Color>
+    <Color x:Key="MidnightBlue">#1A1A2E</Color>
+    <Color x:Key="Magenta">#FF6B35</Color>
+
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+    <Color x:Key="OffBlack">#1A1A2E</Color>
+    <Color x:Key="Gray100">#F0F0F5</Color>
+    <Color x:Key="Gray200">#D8D8E8</Color>
+    <Color x:Key="Gray300">#B0B0C8</Color>
+    <Color x:Key="Gray400">#8888A8</Color>
+    <Color x:Key="Gray500">#686888</Color>
+    <Color x:Key="Gray600">#484868</Color>
+    <Color x:Key="Gray900">#252542</Color>
+    <Color x:Key="Gray950">#1A1A2E</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+    <SolidColorBrush x:Key="CardBrush" Color="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+</ResourceDictionary>
