@@ -1,6 +1,9 @@
 # Build output
 bin/
 obj/
+**/bin/
+**/obj/
+.dotnet-home/
 
 # Visual Studio
 .vs/
@@ -8,6 +11,7 @@ obj/
 *.suo
 *.userosscache
 *.sln.docstates
+*.rsuser
 
 # Rider / VS Code
 .idea/
@@ -27,9 +31,16 @@ project.lock.json
 *.apk
 *.aab
 *.ipa
+*.idsig
+*.keystore
+*.pdb
+FoodDrinkApp_GitHub_Upload.zip
 
 # Logs
 *.log
 
 # Cursor assets (local screenshots)
 assets/
+
+# Local build redirection output is configured outside the repo:
+# C:\MauiBuild\FoodDrinkApp
