@@ -16,14 +16,17 @@ public class InstructionStep
 public partial class RecipeDetailViewModel : BaseViewModel
 {
     private readonly IRecipeService _recipeService;
+    private readonly ICameraService _cameraService;
 
     public RecipeDetailViewModel(
         IRecipeService recipeService,
+        ICameraService cameraService,
         INavigationService navigationService,
         IDialogService dialogService)
         : base(navigationService, dialogService)
     {
         _recipeService = recipeService;
+        _cameraService = cameraService;
         Title = "Recipe Detail";
     }
 
@@ -34,6 +37,15 @@ public partial class RecipeDetailViewModel : BaseViewModel
 
     [ObservableProperty]
     private int _recipeId;
+
+    [ObservableProperty]
+    private ImageSource? _capturedPhoto;
+
+    [ObservableProperty]
+    private string _photoStatusMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasPhotoStatus;
 
     partial void OnRecipeIdChanged(int value)
     {
@@ -58,6 +70,10 @@ public partial class RecipeDetailViewModel : BaseViewModel
             }
 
             Title = Recipe.Name;
+            CapturedPhoto = null;
+            HasPhotoStatus = false;
+            PhotoStatusMessage = string.Empty;
+
             InstructionSteps.Clear();
             for (var i = 0; i < Recipe.Steps.Count; i++)
             {
@@ -71,13 +87,56 @@ public partial class RecipeDetailViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task CapturePhotoAsync()
+    {
+        if (Recipe is null)
+            return;
+
+        HasPhotoStatus = false;
+        PhotoStatusMessage = string.Empty;
+
+        try
+        {
+            var result = await _cameraService.CapturePhotoAsync();
+
+            if (!result.Success || result.Image is null)
+            {
+                if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                {
+                    PhotoStatusMessage = result.ErrorMessage;
+                    HasPhotoStatus = true;
+                }
+                return;
+            }
+
+            CapturedPhoto = result.Image;
+            PhotoStatusMessage = "Dish photo captured successfully!";
+            HasPhotoStatus = true;
+            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+            SemanticScreenReader.Announce("Dish photo captured.");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[RecipeDetailViewModel] Camera: {ex}");
+            PhotoStatusMessage = "Could not capture photo. Please try again.";
+            HasPhotoStatus = true;
+        }
+    }
+
+    [RelayCommand]
     private async Task ToggleFavouriteAsync()
     {
         if (Recipe is null)
             return;
 
-        Recipe.IsFavourite = !Recipe.IsFavourite;
-        OnPropertyChanged(nameof(Recipe));
+        await ExecuteAsync(async () =>
+        {
+            var isFavourite = await _recipeService.ToggleFavouriteAsync(Recipe.Id);
+            Recipe.IsFavourite = isFavourite;
+            OnPropertyChanged(nameof(Recipe));
+            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+            SemanticScreenReader.Announce(isFavourite ? "Added to favourites." : "Removed from favourites.");
+        }, "Could not update favourite.");
     }
 
     [RelayCommand]

@@ -22,16 +22,68 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Padding="16" RowDefinitions="Auto,Auto,*" RowSpacing="12">
+    <Grid Padding="16" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" RowSpacing="10">
 
-        <SearchBar
-            Grid.Row="0"
-            Placeholder="Search recipes…"
-            Text="{Binding SearchQuery}"
-            MinimumHeightRequest="44"
-            SemanticProperties.Description="Search recipes by name or category" />
+        <!-- Search + voice -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <SearchBar
+                Grid.Column="0"
+                Placeholder="Search recipes…"
+                Text="{Binding SearchQuery}"
+                MinimumHeightRequest="44"
+                SemanticProperties.Description="Search recipes by name, category, or cuisine" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource Secondary}"
+                Command="{Binding VoiceSearchCommand}"
+                CornerRadius="22"
+                FontSize="18"
+                HeightRequest="44"
+                IsEnabled="{Binding IsListening, Converter={StaticResource InvertedBoolConverter}}"
+                MinimumHeightRequest="44"
+                MinimumWidthRequest="44"
+                Text="🎤"
+                WidthRequest="44"
+                SemanticProperties.Description="Voice search using microphone" />
+        </Grid>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+        <!-- Filters -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <Picker
+                Grid.Column="0"
+                ItemsSource="{Binding DifficultyOptions}"
+                SelectedItem="{Binding SelectedDifficulty}"
+                Title="Difficulty"
+                MinimumHeightRequest="44"
+                SemanticProperties.Description="Filter by difficulty level" />
+            <HorizontalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                <Label
+                    FontSize="13"
+                    Text="♥ Only"
+                    VerticalOptions="Center" />
+                <Switch
+                    IsToggled="{Binding ShowFavouritesOnly}"
+                    MinimumHeightRequest="44"
+                    SemanticProperties.Description="Show favourites only" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- Validation message -->
+        <Border
+            Grid.Row="2"
+            BackgroundColor="{StaticResource Error}"
+            IsVisible="{Binding HasValidationMessage}"
+            Padding="12,8"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 8">
+            <Label
+                FontSize="13"
+                Text="{Binding ValidationMessage}"
+                TextColor="{StaticResource White}" />
+        </Border>
+
+        <!-- Result count + actions -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,Auto,Auto">
             <Label
                 Grid.Column="0"
                 FontSize="14"
@@ -48,18 +100,35 @@
                 Text="Clear"
                 TextColor="{StaticResource Primary}"
                 SemanticProperties.Description="Clear search query" />
+            <Button
+                Grid.Column="2"
+                BackgroundColor="Transparent"
+                Command="{Binding ClearFiltersCommand}"
+                FontSize="14"
+                MinimumHeightRequest="44"
+                Text="Reset"
+                TextColor="{StaticResource Primary}"
+                SemanticProperties.Description="Reset all filters" />
         </Grid>
 
         <ActivityIndicator
-            Grid.Row="2"
+            Grid.Row="4"
             HorizontalOptions="Center"
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
             VerticalOptions="Center"
             Color="{StaticResource Primary}" />
 
+        <ActivityIndicator
+            Grid.Row="4"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsListening}"
+            IsVisible="{Binding IsListening}"
+            VerticalOptions="Center"
+            Color="{StaticResource Secondary}" />
+
         <CollectionView
-            Grid.Row="2"
+            Grid.Row="5"
             IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
             ItemsSource="{Binding Recipes}"
             SelectionMode="None">
@@ -81,13 +150,14 @@
                     <Label
                         FontSize="14"
                         HorizontalTextAlignment="Center"
-                        Text="Try adjusting your search or browse all categories"
+                        Text="Try adjusting your search, filters, or browse all categories"
                         TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:RecipeSummary">
                     <controls:RecipeCardView
+                        FavouriteCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleFavouriteCommand}"
                         Recipe="{Binding .}"
                         TapCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenRecipeCommand}"
                         TapCommandParameter="{Binding .}" />

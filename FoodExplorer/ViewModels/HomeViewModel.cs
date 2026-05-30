@@ -66,4 +66,10 @@ public partial class HomeViewModel : BaseViewModel
     {
         await NavigationService.GoToAsync($"//{nameof(Views.RecipeListPage)}");
     }
+
+    [RelayCommand]
+    private async Task BrowseFavouritesAsync()
+    {
+        await NavigationService.GoToAsync($"//{nameof(Views.RecipeListPage)}?favourites=true");
+    }
 }

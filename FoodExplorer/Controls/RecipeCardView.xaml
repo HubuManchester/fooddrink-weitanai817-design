@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="../Resources/Styles/Typography.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:DifficultyToColorConverter x:Key="DifficultyToColorConverter" />
+            <converters:BoolToHeartConverter x:Key="BoolToHeartConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -25,11 +26,28 @@
         </Border.GestureRecognizers>
 
         <Grid RowDefinitions="140,Auto" RowSpacing="0">
-            <Image
-                Grid.Row="0"
-                Aspect="AspectFill"
-                Source="{Binding ImageUri}"
-                SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
+            <Grid Grid.Row="0">
+                <Image
+                    Aspect="AspectFill"
+                    Source="{Binding ImageUri}"
+                    SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
+
+                <Button
+                    BackgroundColor="#80000000"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=FavouriteCommand}"
+                    CommandParameter="{Binding .}"
+                    CornerRadius="18"
+                    FontSize="16"
+                    HeightRequest="36"
+                    HorizontalOptions="End"
+                    Margin="8"
+                    MinimumHeightRequest="36"
+                    MinimumWidthRequest="36"
+                    Text="{Binding IsFavourite, Converter={StaticResource BoolToHeartConverter}}"
+                    VerticalOptions="Start"
+                    WidthRequest="36"
+                    SemanticProperties.Description="Toggle favourite" />
+            </Grid>
 
             <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="6">
                 <Label

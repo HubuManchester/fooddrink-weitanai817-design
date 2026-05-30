@@ -136,12 +136,22 @@
                 </CollectionView>
             </VerticalStackLayout>
 
-            <!-- Quick action -->
+            <!-- Quick actions -->
             <Button
                 Command="{Binding BrowseAllCommand}"
                 Style="{StaticResource PrimaryButton}"
                 Text="Explore All Recipes"
                 SemanticProperties.Description="Open the full recipe list" />
+
+            <Button
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                BorderColor="{StaticResource Primary}"
+                BorderWidth="1"
+                Command="{Binding BrowseFavouritesCommand}"
+                MinimumHeightRequest="44"
+                Text="♥ My Favourites"
+                TextColor="{StaticResource Primary}"
+                SemanticProperties.Description="Browse favourite recipes" />
 
         </VerticalStackLayout>
     </ScrollView>

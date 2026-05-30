@@ -25,6 +25,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
         builder.Services.AddSingleton<IRecipeService, RecipeService>();
         builder.Services.AddSingleton<IDialogService, DialogService>();
+        builder.Services.AddSingleton<IVoiceSearchService, VoiceSearchService>();
+        builder.Services.AddSingleton<ICameraService, CameraService>();
 
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<RecipeListViewModel>();

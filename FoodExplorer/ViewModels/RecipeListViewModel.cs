@@ -7,22 +7,28 @@ using FoodExplorer.Services;
 namespace FoodExplorer.ViewModels;
 
 [QueryProperty(nameof(CategoryFilter), "category")]
+[QueryProperty(nameof(FavouritesQuery), "favourites")]
 public partial class RecipeListViewModel : BaseViewModel
 {
+    private const int MaxSearchLength = 100;
+
     private readonly IRecipeService _recipeService;
-    private List<RecipeSummary> _allRecipes = [];
+    private readonly IVoiceSearchService _voiceSearchService;
 
     public RecipeListViewModel(
         IRecipeService recipeService,
+        IVoiceSearchService voiceSearchService,
         INavigationService navigationService,
         IDialogService dialogService)
         : base(navigationService, dialogService)
     {
         _recipeService = recipeService;
+        _voiceSearchService = voiceSearchService;
         Title = "Recipes";
     }
 
     public ObservableCollection<RecipeSummary> Recipes { get; } = new();
+    public IList<string> DifficultyOptions { get; } = ["All", "Easy", "Medium", "Hard"];
 
     [ObservableProperty]
     private string _searchQuery = string.Empty;
@@ -31,14 +37,60 @@ public partial class RecipeListViewModel : BaseViewModel
     private string? _categoryFilter;
 
     [ObservableProperty]
+    private string _selectedDifficulty = "All";
+
+    [ObservableProperty]
+    private bool _showFavouritesOnly;
+
+    [ObservableProperty]
     private string _resultCountText = string.Empty;
 
-    partial void OnSearchQueryChanged(string value) => ApplyFilter();
+    [ObservableProperty]
+    private bool _isListening;
+
+    [ObservableProperty]
+    private string _validationMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasValidationMessage;
+
+    [ObservableProperty]
+    private string? _favouritesQuery;
+
+    partial void OnFavouritesQueryChanged(string? value)
+    {
+        ShowFavouritesOnly = bool.TryParse(value, out var favouritesOnly) && favouritesOnly;
+        if (ShowFavouritesOnly)
+            Title = "Favourites";
+    }
+
+    partial void OnSearchQueryChanged(string value)
+    {
+        if (value.Length > MaxSearchLength)
+        {
+            SearchQuery = value[..MaxSearchLength];
+            ShowValidation("Search text cannot exceed 100 characters.");
+            return;
+        }
+
+        ClearValidation();
+        _ = ApplyFilterAsync();
+    }
 
     partial void OnCategoryFilterChanged(string? value)
     {
-        Title = string.IsNullOrWhiteSpace(value) ? "Recipes" : value;
-        ApplyFilter();
+        if (!ShowFavouritesOnly)
+            Title = string.IsNullOrWhiteSpace(value) ? "Recipes" : value;
+
+        _ = ApplyFilterAsync();
+    }
+
+    partial void OnSelectedDifficultyChanged(string value) => _ = ApplyFilterAsync();
+
+    partial void OnShowFavouritesOnlyChanged(bool value)
+    {
+        Title = value ? "Favourites" : (string.IsNullOrWhiteSpace(CategoryFilter) ? "Recipes" : CategoryFilter!);
+        _ = ApplyFilterAsync();
     }
 
     [RelayCommand]
@@ -46,9 +98,8 @@ public partial class RecipeListViewModel : BaseViewModel
     {
         await ExecuteAsync(async () =>
         {
-            _allRecipes = (await _recipeService.GetRecipeSummariesAsync()).ToList();
-            ApplyFilter();
-        });
+            await ApplyFilterAsync();
+        }, "Unable to load recipes.");
     }
 
     [RelayCommand]
@@ -62,31 +113,97 @@ public partial class RecipeListViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task ToggleFavouriteAsync(RecipeSummary recipe)
+    {
+        if (recipe is null)
+            return;
+
+        await ExecuteAsync(async () =>
+        {
+            var isFavourite = await _recipeService.ToggleFavouriteAsync(recipe.Id);
+            recipe.IsFavourite = isFavourite;
+            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+
+            if (ShowFavouritesOnly && !isFavourite)
+                await ApplyFilterAsync();
+        }, "Could not update favourite.");
+    }
+
+    [RelayCommand]
+    private async Task VoiceSearchAsync()
+    {
+        if (IsListening)
+            return;
+
+        ClearValidation();
+
+        try
+        {
+            IsListening = true;
+            var result = await _voiceSearchService.ListenAsync();
+
+            if (!result.Success)
+            {
+                if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                    ShowValidation(result.ErrorMessage);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(result.Text))
+            {
+                ShowValidation("No speech detected. Please try again.");
+                return;
+            }
+
+            SearchQuery = result.Text.Trim();
+            SemanticScreenReader.Announce($"Searching for {SearchQuery}");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[RecipeListViewModel] Voice search: {ex}");
+            ShowValidation("Voice search failed. Please try again.");
+        }
+        finally
+        {
+            IsListening = false;
+        }
+    }
+
+    [RelayCommand]
     private void ClearSearch()
     {
         SearchQuery = string.Empty;
+        ClearValidation();
     }
 
-    private void ApplyFilter()
+    [RelayCommand]
+    private void ClearFilters()
     {
-        Recipes.Clear();
+        SearchQuery = string.Empty;
+        SelectedDifficulty = "All";
+        ShowFavouritesOnly = false;
+        CategoryFilter = null;
+        ClearValidation();
+    }
 
-        var filtered = _allRecipes.AsEnumerable();
-
-        if (!string.IsNullOrWhiteSpace(CategoryFilter))
-            filtered = filtered.Where(r =>
-                r.Category.Equals(CategoryFilter, StringComparison.OrdinalIgnoreCase));
-
-        if (!string.IsNullOrWhiteSpace(SearchQuery))
+    private async Task ApplyFilterAsync()
+    {
+        DifficultyLevel? difficulty = SelectedDifficulty switch
         {
-            var query = SearchQuery.Trim();
-            filtered = filtered.Where(r =>
-                r.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                r.Description.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                r.Category.Contains(query, StringComparison.OrdinalIgnoreCase));
-        }
+            "Easy" => DifficultyLevel.Easy,
+            "Medium" => DifficultyLevel.Medium,
+            "Hard" => DifficultyLevel.Hard,
+            _ => null
+        };
 
-        var results = filtered.ToList();
+        var query = string.IsNullOrWhiteSpace(SearchQuery) ? null : SearchQuery.Trim();
+        var results = await _recipeService.SearchRecipesAsync(
+            query,
+            CategoryFilter,
+            difficulty,
+            ShowFavouritesOnly);
+
+        Recipes.Clear();
         foreach (var recipe in results)
             Recipes.Add(recipe);
 
@@ -96,5 +213,17 @@ public partial class RecipeListViewModel : BaseViewModel
             1 => "1 recipe found",
             _ => $"{results.Count} recipes found"
         };
+    }
+
+    private void ShowValidation(string message)
+    {
+        ValidationMessage = message;
+        HasValidationMessage = true;
+    }
+
+    private void ClearValidation()
+    {
+        ValidationMessage = string.Empty;
+        HasValidationMessage = false;
     }
 }

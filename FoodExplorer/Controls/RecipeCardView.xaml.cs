@@ -14,6 +14,9 @@ public partial class RecipeCardView : ContentView
     public static readonly BindableProperty TapCommandParameterProperty =
         BindableProperty.Create(nameof(TapCommandParameter), typeof(object), typeof(RecipeCardView));
 
+    public static readonly BindableProperty FavouriteCommandProperty =
+        BindableProperty.Create(nameof(FavouriteCommand), typeof(ICommand), typeof(RecipeCardView));
+
     public RecipeCardView()
     {
         InitializeComponent();
@@ -35,5 +38,11 @@ public partial class RecipeCardView : ContentView
     {
         get => GetValue(TapCommandParameterProperty);
         set => SetValue(TapCommandParameterProperty, value);
+    }
+
+    public ICommand? FavouriteCommand
+    {
+        get => (ICommand?)GetValue(FavouriteCommandProperty);
+        set => SetValue(FavouriteCommandProperty, value);
     }
 }

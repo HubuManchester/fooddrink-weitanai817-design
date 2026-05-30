@@ -26,7 +26,7 @@ FoodExplorer is a cross-platform mobile application that allows users to discove
 
 ## 🛠️ Development Plan
 
-### Phase 1 — Foundation & UI/UX Framework *(current)*
+### Phase 1 — Foundation & UI/UX Framework *(complete)*
 - [x] Shell-based navigation (AppShell)
 - [x] MVVM architecture (ViewModels + Models)
 - [x] Unified color theme with dark/light mode
@@ -34,13 +34,13 @@ FoodExplorer is a cross-platform mobile application that allows users to discove
 - [x] Multi-page XAML structure (Home, RecipeList, RecipeDetail, Settings)
 - [x] Base services and converters
 
-### Phase 2 — Core Features & Hardware (1–2)
-- [ ] Local JSON recipe data source
-- [ ] Microphone / Voice search (Hardware #1)
-- [ ] GPS Location & Food Map (Hardware #2)
-- [ ] Search & filter functionality
-- [ ] Favourites with local persistence
-- [ ] Input validation and error handling
+### Phase 2 — Core Features & Hardware (1–2) *(complete)*
+- [x] Local JSON recipe data source
+- [x] Camera / dish photo capture (Hardware #1)
+- [x] Microphone / Voice search (Hardware #2)
+- [x] Search & filter functionality
+- [x] Favourites with local persistence
+- [x] Input validation and error handling
 
 ### Phase 3 — Advanced Hardware Features
 - [ ] Shake-to-random-recipe (Accelerometer, Hardware #3)

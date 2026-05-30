@@ -111,6 +111,47 @@
                         </BindableLayout.ItemTemplate>
                     </HorizontalStackLayout>
 
+                    <!-- Camera: capture your dish (Hardware #1) -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Style="{StaticResource TitleSmall}" Text="My Dish Photo" SemanticProperties.HeadingLevel="Level2" />
+                        <Border
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                            HeightRequest="180"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="1">
+                            <Grid>
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Text="📷 No photo yet"
+                                    TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                    VerticalOptions="Center" />
+                                <Image
+                                    Aspect="AspectFill"
+                                    IsVisible="{Binding CapturedPhoto, Converter={StaticResource IsNotNullConverter}}"
+                                    Source="{Binding CapturedPhoto}"
+                                    SemanticProperties.Description="Photo of your cooked dish" />
+                            </Grid>
+                        </Border>
+                        <Button
+                            Command="{Binding CapturePhotoCommand}"
+                            MinimumHeightRequest="44"
+                            Style="{StaticResource PrimaryButton}"
+                            Text="📷 Capture Dish Photo"
+                            SemanticProperties.Description="Take a photo of your dish using the camera" />
+                        <Border
+                            BackgroundColor="{StaticResource Secondary}"
+                            IsVisible="{Binding HasPhotoStatus}"
+                            Padding="10,6"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8">
+                            <Label
+                                FontSize="13"
+                                Text="{Binding PhotoStatusMessage}"
+                                TextColor="{StaticResource White}" />
+                        </Border>
+                    </VerticalStackLayout>
+
                     <VerticalStackLayout Spacing="8">
                         <Label Style="{StaticResource TitleSmall}" Text="Ingredients" SemanticProperties.HeadingLevel="Level2" />
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding Recipe.Ingredients}" Spacing="6">
