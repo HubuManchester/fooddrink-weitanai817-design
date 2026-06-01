@@ -1,8 +1,15 @@
 namespace FoodExplorer.Services;
 
+/// <summary>
+/// Hardware #5 and #6 — Gyroscope and Compass integration.
+/// Gyroscope tilt is mapped to recipe step navigation (forward/backward).
+/// Compass provides real-time magnetic heading display on the recipe detail page.
+/// </summary>
 public class SensorService : ISensorService
 {
+    /// <summary>Angular velocity threshold (rad/s) before a tilt event is raised.</summary>
     private const double GyroThreshold = 1.2;
+
     private static readonly TimeSpan GyroDebounce = TimeSpan.FromMilliseconds(900);
 
     private DateTime _lastGyroEventUtc = DateTime.MinValue;
@@ -16,6 +23,7 @@ public class SensorService : ISensorService
     public event Action? TiltBackward;
     public event Action<double>? HeadingChanged;
 
+    /// <summary>Starts gyroscope monitoring for tilt-based step navigation.</summary>
     public void StartGyroscope()
     {
         if (_gyroActive || !IsGyroscopeSupported)
@@ -26,6 +34,7 @@ public class SensorService : ISensorService
         _gyroActive = true;
     }
 
+    /// <summary>Stops gyroscope monitoring.</summary>
     public void StopGyroscope()
     {
         if (!_gyroActive)
@@ -36,6 +45,7 @@ public class SensorService : ISensorService
         _gyroActive = false;
     }
 
+    /// <summary>Starts compass monitoring for magnetic heading display.</summary>
     public void StartCompass()
     {
         if (_compassActive || !IsCompassSupported)
@@ -46,6 +56,7 @@ public class SensorService : ISensorService
         _compassActive = true;
     }
 
+    /// <summary>Stops compass monitoring.</summary>
     public void StopCompass()
     {
         if (!_compassActive)

@@ -1,7 +1,13 @@
 namespace FoodExplorer.Services;
 
+/// <summary>
+/// Hardware #1 — Camera capture.
+/// Uses <c>MediaPicker.CapturePhotoAsync</c> to photograph the user's cooked dish,
+/// with permission and device-capability error handling.
+/// </summary>
 public class CameraService : ICameraService
 {
+    /// <summary>Captures a photo from the device camera and returns it as an <see cref="ImageSource"/>.</summary>
     public async Task<CameraCaptureResult> CapturePhotoAsync(CancellationToken cancellationToken = default)
     {
         try

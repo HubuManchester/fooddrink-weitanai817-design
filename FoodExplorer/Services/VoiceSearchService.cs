@@ -1,7 +1,13 @@
 namespace FoodExplorer.Services;
 
+/// <summary>
+/// Hardware #2 — Microphone / voice search.
+/// Requests microphone permission and delegates to the Android <c>SpeechRecognizer</c>
+/// to convert spoken queries into recipe search text.
+/// </summary>
 public class VoiceSearchService : IVoiceSearchService
 {
+    /// <summary>Listens for a spoken search query and returns the recognised text.</summary>
     public async Task<VoiceSearchResult> ListenAsync(CancellationToken cancellationToken = default)
     {
         try

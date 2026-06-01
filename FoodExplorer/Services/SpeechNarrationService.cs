@@ -1,11 +1,17 @@
 namespace FoodExplorer.Services;
 
+/// <summary>
+/// Hardware #4 — Text-to-Speech narration.
+/// Uses the MAUI Essentials TextToSpeech API to read recipe instructions aloud,
+/// supporting cancellation and English locale selection.
+/// </summary>
 public class SpeechNarrationService : ISpeechNarrationService
 {
     private CancellationTokenSource? _speakCts;
 
     public bool IsSpeaking => _speakCts is not null;
 
+    /// <summary>Reads the given text aloud using the device TTS engine.</summary>
     public async Task<NarrationResult> SpeakAsync(string text, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -47,6 +53,7 @@ public class SpeechNarrationService : ISpeechNarrationService
         }
     }
 
+    /// <summary>Cancels any in-progress narration.</summary>
     public Task StopAsync()
     {
         if (_speakCts is null)
