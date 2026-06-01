@@ -5,16 +5,21 @@ namespace FoodExplorer;
 public partial class App : Application
 {
     private readonly ISettingsService _settingsService;
+    private readonly IAccessibilityService _accessibilityService;
 
-    public App(ISettingsService settingsService, AppShell shell)
+    public App(
+        ISettingsService settingsService,
+        IAccessibilityService accessibilityService,
+        AppShell shell)
     {
         InitializeComponent();
 
         _settingsService = settingsService;
+        _accessibilityService = accessibilityService;
         _settingsService.SettingsChanged += OnSettingsChanged;
 
         ApplyTheme(_settingsService.IsDarkMode);
-        ApplyFontScale(_settingsService.FontScale);
+        ApplyAccessibilityToCurrentPage();
 
         try
         {
@@ -43,15 +48,30 @@ public partial class App : Application
         UserAppTheme = isDark ? AppTheme.Dark : AppTheme.Light;
     }
 
-    public void ApplyFontScale(double scale)
+    public void ApplyAccessibilityToPage(Page page)
     {
-        // Font scale applied per-page in Phase 2
+        _accessibilityService.ApplyFontScale(page, _settingsService.FontScale);
+        _accessibilityService.ApplyHighContrast(page, _settingsService.HighContrast);
     }
 
     private void OnSettingsChanged(object? sender, EventArgs e)
     {
         ApplyTheme(_settingsService.IsDarkMode);
-        ApplyFontScale(_settingsService.FontScale);
+        ApplyAccessibilityToCurrentPage();
+    }
+
+    private void ApplyAccessibilityToCurrentPage()
+    {
+        if (GetCurrentPage() is Page page)
+            ApplyAccessibilityToPage(page);
+    }
+
+    private static Page? GetCurrentPage()
+    {
+        if (Current?.MainPage is Shell shell)
+            return shell.CurrentPage;
+
+        return Current?.MainPage as Page;
     }
 
     protected override void OnStart()

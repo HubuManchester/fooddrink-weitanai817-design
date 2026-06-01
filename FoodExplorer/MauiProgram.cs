@@ -1,4 +1,4 @@
-using CommunityToolkit.Maui;
+﻿using CommunityToolkit.Maui;
 using FoodExplorer.Services;
 using FoodExplorer.ViewModels;
 using FoodExplorer.Views;
@@ -31,6 +31,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<IShakeDetectionService, ShakeDetectionService>();
         builder.Services.AddSingleton<ISpeechNarrationService, SpeechNarrationService>();
         builder.Services.AddSingleton<ISensorService, SensorService>();
+        builder.Services.AddSingleton<IDeviceLayoutService, DeviceLayoutService>();
+        builder.Services.AddSingleton<IImageCacheService, ImageCacheService>();
+        builder.Services.AddSingleton<IAccessibilityService, AccessibilityService>();
 
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<RecipeListViewModel>();

@@ -21,7 +21,10 @@
     </ContentPage.Resources>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="24">
+        <VerticalStackLayout
+            x:Name="ContentLayout"
+            Padding="20"
+            Spacing="24">
 
             <Label
                 Style="{StaticResource TitleMedium}"

@@ -22,7 +22,10 @@
     </ContentPage.Resources>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="24">
+        <VerticalStackLayout
+            x:Name="ContentLayout"
+            Padding="20"
+            Spacing="24">
 
             <!-- Hero header -->
             <VerticalStackLayout Spacing="8">
@@ -75,7 +78,7 @@
                                 HeightRequest="240"
                                 Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
                                 StrokeShape="RoundRectangle 16"
-                                WidthRequest="200">
+                                WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.FeaturedCardWidth}">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenRecipeCommand}"
@@ -83,10 +86,9 @@
                                 </Border.GestureRecognizers>
 
                                 <Grid RowDefinitions="120,*">
-                                    <Image
+                                    <controls:CachedImageView
                                         Grid.Row="0"
-                                        Aspect="AspectFill"
-                                        Source="{Binding ImageUri}"
+                                        ImageFileName="{Binding ImageUri}"
                                         SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
                                     <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="4">
                                         <Label

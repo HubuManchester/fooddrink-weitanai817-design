@@ -5,27 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Application.Resources>
         <ResourceDictionary>
-
-            <Color x:Key="Primary">#FF6B35</Color>
-            <Color x:Key="PrimaryLight">#FF8F66</Color>
-            <Color x:Key="White">#FFFFFF</Color>
-            <Color x:Key="Black">#000000</Color>
-            <Color x:Key="OffBlack">#1A1A2E</Color>
-            <Color x:Key="Gray200">#D8D8E8</Color>
-            <Color x:Key="Gray900">#252542</Color>
-
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Typography.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Shell" ApplyToDerivedTypes="True">
-                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=#FFFFFF, Dark=#1A1A2E}" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=#FFFFFF, Dark=#000000}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="#FF6B35" />
-                <Setter Property="Shell.TabBarTitleColor" Value="#FF6B35" />
-                <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light=#252542, Dark=#D8D8E8}" />
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource BackgroundDark}}" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource Black}}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
             </Style>
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>
