@@ -3,6 +3,7 @@
     x:Class="FoodExplorer.Views.RecipeDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:FoodExplorer.Controls"
     xmlns:models="clr-namespace:FoodExplorer.Models"
     xmlns:vm="clr-namespace:FoodExplorer.ViewModels"
     xmlns:converters="clr-namespace:FoodExplorer.Converters"
@@ -33,13 +34,12 @@
             Color="{StaticResource Primary}" />
 
         <ScrollView IsVisible="{Binding Recipe, Converter={StaticResource IsNotNullConverter}}">
-            <VerticalStackLayout Spacing="0">
+            <VerticalStackLayout x:Name="DetailContent" Spacing="0">
 
                 <Grid>
-                    <Image
-                        Aspect="AspectFill"
+                    <controls:CachedImageView
                         HeightRequest="240"
-                        Source="{Binding Recipe.ImageUri}"
+                        ImageFileName="{Binding Recipe.ImageUri}"
                         SemanticProperties.Description="{Binding Recipe.Name, StringFormat='Photo of {0}'}" />
 
                     <Button
@@ -165,7 +165,8 @@
                                         <Label
                                             Grid.Column="1"
                                             FontSize="14"
-                                            Text="{Binding DisplayText}" />
+                                            Text="{Binding DisplayText}"
+                                            SemanticProperties.Description="{Binding DisplayText, StringFormat='Ingredient: {0}'}" />
                                     </Grid>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
@@ -230,7 +231,7 @@
 
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding InstructionSteps}" Spacing="12">
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="vm:InstructionStep">
+                                <DataTemplate x:DataType="models:InstructionStep">
                                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                                         <Border
                                             Grid.Column="0"
@@ -257,6 +258,31 @@
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Location: find nearby restaurants (Hardware #9 — Geolocation) -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label
+                            Style="{StaticResource TitleSmall}"
+                            Text="📍 Nearby Restaurants"
+                            SemanticProperties.HeadingLevel="Level2" />
+                        <Button
+                            Command="{Binding FindNearbyRestaurantsCommand}"
+                            MinimumHeightRequest="44"
+                            Style="{StaticResource PrimaryButton}"
+                            Text="📍 Find Nearby Restaurants"
+                            SemanticProperties.Description="Use your location to find nearby restaurants serving this cuisine" />
+                        <Border
+                            BackgroundColor="{StaticResource Secondary}"
+                            IsVisible="{Binding HasLocationStatus}"
+                            Padding="10,8"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8">
+                            <Label
+                                FontSize="13"
+                                Text="{Binding LocationStatusMessage}"
+                                TextColor="{StaticResource White}" />
+                        </Border>
                     </VerticalStackLayout>
 
                 </VerticalStackLayout>

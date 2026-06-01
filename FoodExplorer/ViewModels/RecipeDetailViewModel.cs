@@ -7,15 +7,6 @@ using FoodExplorer.Services;
 
 namespace FoodExplorer.ViewModels;
 
-public partial class InstructionStep : ObservableObject
-{
-    public int Number { get; init; }
-    public string Text { get; init; } = string.Empty;
-
-    [ObservableProperty]
-    private bool _isCurrent;
-}
-
 [QueryProperty(nameof(RecipeId), "id")]
 public partial class RecipeDetailViewModel : BaseViewModel
 {
@@ -25,6 +16,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
     private readonly ISensorService _sensorService;
     private readonly IHapticService _hapticService;
     private readonly ISettingsService _settingsService;
+    private readonly IDeviceLayoutService _deviceLayoutService;
 
     public RecipeDetailViewModel(
         IRecipeService recipeService,
@@ -33,6 +25,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
         ISensorService sensorService,
         IHapticService hapticService,
         ISettingsService settingsService,
+        IDeviceLayoutService deviceLayoutService,
         INavigationService navigationService,
         IDialogService dialogService)
         : base(navigationService, dialogService)
@@ -43,6 +36,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
         _sensorService = sensorService;
         _hapticService = hapticService;
         _settingsService = settingsService;
+        _deviceLayoutService = deviceLayoutService;
         Title = "Recipe Detail";
 
         _sensorService.TiltForward += OnTiltForward;
@@ -82,6 +76,24 @@ public partial class RecipeDetailViewModel : BaseViewModel
     [ObservableProperty]
     private string _narrationStatusMessage = string.Empty;
 
+    [ObservableProperty]
+    private bool _isWideLayout;
+
+    [ObservableProperty]
+    private double _contentMaxWidth = double.PositiveInfinity;
+
+    [ObservableProperty]
+    private string _locationStatusMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasLocationStatus;
+
+    public void UpdateLayout(double pageWidth)
+    {
+        IsWideLayout = _deviceLayoutService.IsTablet(pageWidth);
+        ContentMaxWidth = _deviceLayoutService.GetContentMaxWidth(pageWidth);
+    }
+
     partial void OnRecipeIdChanged(int value)
     {
         if (value > 0)
@@ -112,7 +124,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
             CompassDisplay = "Compass not available on this device.";
     }
 
-    public async void StopHardwareFeatures()
+    public async Task StopHardwareFeaturesAsync()
     {
         _sensorService.StopGyroscope();
         _sensorService.StopCompass();
@@ -141,6 +153,8 @@ public partial class RecipeDetailViewModel : BaseViewModel
             HasPhotoStatus = false;
             PhotoStatusMessage = string.Empty;
             NarrationStatusMessage = string.Empty;
+            HasLocationStatus = false;
+            LocationStatusMessage = string.Empty;
 
             InstructionSteps.Clear();
             for (var i = 0; i < Recipe.Steps.Count; i++)
@@ -271,6 +285,77 @@ public partial class RecipeDetailViewModel : BaseViewModel
         await NavigationService.GoBackAsync();
     }
 
+    /// <summary>
+    /// Hardware #9 — Geolocation. Finds the user's location and suggests nearby restaurants
+    /// serving this recipe's cuisine via MAUI Essentials Geolocation API.
+    /// </summary>
+    [RelayCommand]
+    private async Task FindNearbyRestaurantsAsync()
+    {
+        if (Recipe is null)
+            return;
+
+        HasLocationStatus = false;
+        LocationStatusMessage = string.Empty;
+
+        try
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (status != PermissionStatus.Granted)
+                status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+            if (status != PermissionStatus.Granted)
+            {
+                LocationStatusMessage = "Location permission denied. Enable in Settings → App Permissions.";
+                HasLocationStatus = true;
+                _hapticService.PerformError();
+                return;
+            }
+
+            LocationStatusMessage = "📍 Getting your location…";
+            HasLocationStatus = true;
+
+            var location = await Geolocation.Default.GetLastKnownLocationAsync();
+            if (location is null)
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                location = await Geolocation.Default.GetLocationAsync(request);
+            }
+
+            if (location is null)
+            {
+                LocationStatusMessage = "Could not determine your location. Please try again.";
+                _hapticService.PerformError();
+                return;
+            }
+
+            var cuisine = string.IsNullOrWhiteSpace(Recipe.Cuisine) ? "restaurant" : Recipe.Cuisine;
+            LocationStatusMessage =
+                $"📍 Your location: {location.Latitude:F4}°, {location.Longitude:F4}°\n" +
+                $"Searching for nearby {cuisine} restaurants…";
+            _hapticService.PerformSuccess();
+            SemanticScreenReader.Announce($"Location found. Searching for {cuisine} restaurants near you.");
+        }
+        catch (FeatureNotSupportedException)
+        {
+            LocationStatusMessage = "Location services are not available on this device.";
+            HasLocationStatus = true;
+        }
+        catch (PermissionException)
+        {
+            LocationStatusMessage = "Location permission was denied. Please enable it in device settings.";
+            HasLocationStatus = true;
+            _hapticService.PerformError();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[RecipeDetailViewModel] Location: {ex}");
+            LocationStatusMessage = "Location lookup failed. Please check your connection and try again.";
+            HasLocationStatus = true;
+            _hapticService.PerformError();
+        }
+    }
+
     private void OnTiltForward()
     {
         MainThread.BeginInvokeOnMainThread(() => NextStepCommand.Execute(null));
@@ -285,7 +370,18 @@ public partial class RecipeDetailViewModel : BaseViewModel
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            CompassDisplay = $"🧭 {heading:F0}° — {GetCompassDirection(heading)}";
+            var dir = heading switch
+            {
+                < 22.5 or >= 337.5 => "N",
+                < 67.5 => "NE",
+                < 112.5 => "E",
+                < 157.5 => "SE",
+                < 202.5 => "S",
+                < 247.5 => "SW",
+                < 292.5 => "W",
+                _ => "NW"
+            };
+            CompassDisplay = $"🧭 Heading: {dir} {heading:F0}°";
         });
     }
 
@@ -320,12 +416,5 @@ public partial class RecipeDetailViewModel : BaseViewModel
             builder.Append($"Step {i + 1}. {recipe.Steps[i]} ");
 
         return builder.ToString();
-    }
-
-    private static string GetCompassDirection(double heading)
-    {
-        var directions = new[] { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
-        var index = (int)Math.Round(heading / 45.0) % 8;
-        return directions[index];
     }
 }
