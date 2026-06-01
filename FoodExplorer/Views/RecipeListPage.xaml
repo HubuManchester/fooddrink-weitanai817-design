@@ -22,13 +22,19 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Padding="16" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" RowSpacing="10">
+    <Grid Padding="16">
+
+        <Grid
+            x:Name="ContentGrid"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+            RowSpacing="10">
 
         <!-- Search + voice -->
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="8">
             <SearchBar
                 Grid.Column="0"
                 Placeholder="Search recipes…"
+                SearchButtonPressed="OnSearchBarSearchButtonPressed"
                 Text="{Binding SearchQuery}"
                 MinimumHeightRequest="44"
                 SemanticProperties.Description="Search recipes by name, category, or cuisine" />
@@ -128,12 +134,13 @@
             Color="{StaticResource Secondary}" />
 
         <CollectionView
+            x:Name="RecipeCollection"
             Grid.Row="5"
             IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
             ItemsSource="{Binding Recipes}"
             SelectionMode="None">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout HorizontalItemSpacing="12" Orientation="Vertical" Span="2" VerticalItemSpacing="12" />
+                <GridItemsLayout HorizontalItemSpacing="12" Orientation="Vertical" Span="{Binding GridSpan}" VerticalItemSpacing="12" />
             </CollectionView.ItemsLayout>
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" Padding="40" Spacing="12" VerticalOptions="Center">
@@ -164,6 +171,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        </Grid>
 
     </Grid>
 

@@ -15,11 +15,16 @@ public partial class RecipeListViewModel : BaseViewModel
     private readonly IRecipeService _recipeService;
     private readonly IVoiceSearchService _voiceSearchService;
     private readonly IHapticService _hapticService;
+    private readonly IDeviceLayoutService _deviceLayoutService;
+    private readonly IImageCacheService _imageCacheService;
+    private bool _imagesPreloaded;
 
     public RecipeListViewModel(
         IRecipeService recipeService,
         IVoiceSearchService voiceSearchService,
         IHapticService hapticService,
+        IDeviceLayoutService deviceLayoutService,
+        IImageCacheService imageCacheService,
         INavigationService navigationService,
         IDialogService dialogService)
         : base(navigationService, dialogService)
@@ -27,6 +32,8 @@ public partial class RecipeListViewModel : BaseViewModel
         _recipeService = recipeService;
         _voiceSearchService = voiceSearchService;
         _hapticService = hapticService;
+        _deviceLayoutService = deviceLayoutService;
+        _imageCacheService = imageCacheService;
         Title = "Recipes";
     }
 
@@ -60,6 +67,12 @@ public partial class RecipeListViewModel : BaseViewModel
     [ObservableProperty]
     private string? _favouritesQuery;
 
+    [ObservableProperty]
+    private int _gridSpan = 2;
+
+    public void UpdateLayout(double pageWidth) =>
+        GridSpan = _deviceLayoutService.GetRecipeGridSpan(pageWidth);
+
     partial void OnFavouritesQueryChanged(string? value)
     {
         ShowFavouritesOnly = bool.TryParse(value, out var favouritesOnly) && favouritesOnly;
@@ -72,7 +85,7 @@ public partial class RecipeListViewModel : BaseViewModel
         if (value.Length > MaxSearchLength)
         {
             SearchQuery = value[..MaxSearchLength];
-            ShowValidation("Search text cannot exceed 100 characters.");
+            ShowValidationMessage("Search text cannot exceed 100 characters.");
             return;
         }
 
@@ -101,6 +114,13 @@ public partial class RecipeListViewModel : BaseViewModel
     {
         await ExecuteAsync(async () =>
         {
+            if (!_imagesPreloaded)
+            {
+                var all = await _recipeService.GetAllRecipesAsync();
+                _imageCacheService.Preload(all.Select(r => r.ImageUri));
+                _imagesPreloaded = true;
+            }
+
             await ApplyFilterAsync();
         }, "Unable to load recipes.");
     }
@@ -148,13 +168,13 @@ public partial class RecipeListViewModel : BaseViewModel
             if (!result.Success)
             {
                 if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
-                    ShowValidation(result.ErrorMessage);
+                    ShowValidationMessage(result.ErrorMessage);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(result.Text))
             {
-                ShowValidation("No speech detected. Please try again.");
+                ShowValidationMessage("No speech detected. Please try again.");
                 return;
             }
 
@@ -165,7 +185,7 @@ public partial class RecipeListViewModel : BaseViewModel
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"[RecipeListViewModel] Voice search: {ex}");
-            ShowValidation("Voice search failed. Please try again.");
+            ShowValidationMessage("Voice search failed. Please try again.");
         }
         finally
         {
@@ -219,7 +239,7 @@ public partial class RecipeListViewModel : BaseViewModel
         };
     }
 
-    private void ShowValidation(string message)
+    public void ShowValidationMessage(string message)
     {
         ValidationMessage = message;
         HasValidationMessage = true;

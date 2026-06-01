@@ -15,7 +15,7 @@ public partial class AppShell : Shell
         tabBar.Items.Add(new ShellContent
         {
             Title = "Home",
-            Icon = "dotnet_bot.png",
+            Icon = "tab_home.svg",
             Route = "HomePage",
             Content = homePage
         });
@@ -23,7 +23,7 @@ public partial class AppShell : Shell
         tabBar.Items.Add(new ShellContent
         {
             Title = "Recipes",
-            Icon = "dotnet_bot.png",
+            Icon = "tab_recipes.svg",
             Route = "RecipeListPage",
             Content = recipeListPage
         });
@@ -31,7 +31,7 @@ public partial class AppShell : Shell
         tabBar.Items.Add(new ShellContent
         {
             Title = "Settings",
-            Icon = "dotnet_bot.png",
+            Icon = "tab_settings.svg",
             Route = "SettingsPage",
             Content = settingsPage
         });
