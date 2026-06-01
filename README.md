@@ -45,14 +45,15 @@ FoodExplorer is a cross-platform mobile application that allows users to discove
 ### Phase 3 — Advanced Hardware Features *(complete)*
 - [x] Shake-to-random-recipe (Accelerometer, Hardware #3)
 - [x] Text-to-Speech recipe narration (Hardware #4)
-- [x] Gyroscope / Magnetometer integration (Hardware #5)
-- [x] Haptic feedback & vibration (Hardware #6)
+- [x] Gyroscope / Magnetometer integration (Hardware #5 & #6)
+- [x] Haptic feedback & vibration (Hardware #7 & #8)
+- [x] Geolocation — find nearby restaurants (Hardware #9)
 
-### Phase 4 — Deployment & Polish
-- [ ] Android phone + Android tablet responsive layout
-- [ ] Performance optimisation (image caching, lazy loading)
-- [ ] Full code refactor (comments, classes, reusability)
-- [ ] Final testing and bug fixes
+### Phase 4 — Deployment & Polish *(complete)*
+- [x] Android phone + Android tablet responsive layout
+- [x] Performance optimisation (image caching, lazy loading)
+- [x] Full code refactor (comments, classes, reusability)
+- [x] Final testing and bug fixes
 
 ---
 
@@ -101,7 +102,46 @@ FoodExplorer/
 
 ---
 
-## ♿ Accessibility
+## 🎯 Hardware Features
+
+| # | Feature | API Used | Where Used |
+|---|---------|----------|------------|
+| 1 | Camera | `MediaPicker.CapturePhotoAsync` | Recipe Detail — Capture dish photo |
+| 2 | Microphone | `SpeechRecognizer` (Android) | Recipe List — Voice search |
+| 3 | Accelerometer | `Accelerometer.Default` | Home — Shake for random recipe |
+| 4 | Text-to-Speech | `TextToSpeech.Default.SpeakAsync` | Recipe Detail — Read recipe aloud |
+| 5 | Gyroscope | `Gyroscope.Default` | Recipe Detail — Tilt to change step |
+| 6 | Compass | `Compass.Default` | Recipe Detail — Show heading |
+| 7 | Haptic Feedback | `HapticFeedback.Default.Perform` | Throughout — Button feedback |
+| 8 | Vibration | `Vibration.Default.Vibrate` | Error states & shake confirm |
+| 9 | Geolocation | `Geolocation.Default.GetLocationAsync` | Recipe Detail — Find nearby restaurants |
+
+---
+
+## ♿ WCAG 2.1 Compliance
+
+| Criterion | Implementation |
+|-----------|---------------|
+| 1.3.1 Info and Relationships | `SemanticProperties.HeadingLevel` on all section headers |
+| 1.4.3 Contrast (Minimum) | Colour contrast ≥ 4.5:1 for normal text |
+| 1.4.4 Resize Text | 4-level font scaling via `AccessibilityService` |
+| 1.4.10 Reflow | Single-column layout with `ScrollView` throughout |
+| 2.4.2 Page Titled | All pages have `Title` bound to ViewModel |
+| 2.5.5 Target Size | All interactive elements ≥ 44×44dp (`MinimumHeightRequest="44"`) |
+| 4.1.2 Name, Role, Value | `SemanticProperties.Description` on all controls |
+
+---
+
+## 🚀 Deployment
+
+| Target | Status | Notes |
+|--------|--------|-------|
+| Android Phone Emulator | ✅ | Primary development target (API 33+) |
+| Android Tablet Emulator | ✅ | Responsive layout via `DeviceLayoutService` (2/3/4 column grid) |
+
+---
+
+## ♿ Accessibility (Summary)
 
 This app follows **WCAG 2.1 AA** guidelines:
 - All interactive elements have semantic labels (`SemanticProperties.Description`)
@@ -109,7 +149,7 @@ This app follows **WCAG 2.1 AA** guidelines:
 - Colour contrast ratio ≥ 4.5:1 (normal text), ≥ 3:1 (large text)
 - Dark mode support
 - Scalable font sizes (Small / Medium / Large / Extra Large)
-- Screen reader compatible
+- Screen reader compatible (`SemanticScreenReader.Announce`)
 
 ---
 
