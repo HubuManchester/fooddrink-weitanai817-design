@@ -136,6 +136,32 @@
                 </CollectionView>
             </VerticalStackLayout>
 
+            <!-- Shake-to-random (Accelerometer) -->
+            <Border
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                Padding="16"
+                Stroke="{StaticResource Accent}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+                <VerticalStackLayout Spacing="10">
+                    <Label
+                        FontFamily="OpenSansSemibold"
+                        FontSize="16"
+                        Text="🎲 Shake for Surprise"
+                        SemanticProperties.HeadingLevel="Level2" />
+                    <Label
+                        FontSize="13"
+                        Text="{Binding ShakeHint}"
+                        TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                    <Button
+                        Command="{Binding RandomRecipeCommand}"
+                        MinimumHeightRequest="44"
+                        Style="{StaticResource PrimaryButton}"
+                        Text="Pick Random Recipe"
+                        SemanticProperties.Description="Pick a random recipe without shaking" />
+                </VerticalStackLayout>
+            </Border>
+
             <!-- Quick actions -->
             <Button
                 Command="{Binding BrowseAllCommand}"

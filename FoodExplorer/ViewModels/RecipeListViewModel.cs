@@ -14,16 +14,19 @@ public partial class RecipeListViewModel : BaseViewModel
 
     private readonly IRecipeService _recipeService;
     private readonly IVoiceSearchService _voiceSearchService;
+    private readonly IHapticService _hapticService;
 
     public RecipeListViewModel(
         IRecipeService recipeService,
         IVoiceSearchService voiceSearchService,
+        IHapticService hapticService,
         INavigationService navigationService,
         IDialogService dialogService)
         : base(navigationService, dialogService)
     {
         _recipeService = recipeService;
         _voiceSearchService = voiceSearchService;
+        _hapticService = hapticService;
         Title = "Recipes";
     }
 
@@ -122,7 +125,7 @@ public partial class RecipeListViewModel : BaseViewModel
         {
             var isFavourite = await _recipeService.ToggleFavouriteAsync(recipe.Id);
             recipe.IsFavourite = isFavourite;
-            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+            _hapticService.PerformClick();
 
             if (ShowFavouritesOnly && !isFavourite)
                 await ApplyFilterAsync();
@@ -156,6 +159,7 @@ public partial class RecipeListViewModel : BaseViewModel
             }
 
             SearchQuery = result.Text.Trim();
+            _hapticService.PerformSuccess();
             SemanticScreenReader.Announce($"Searching for {SearchQuery}");
         }
         catch (Exception ex)

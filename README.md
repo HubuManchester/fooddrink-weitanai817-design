@@ -42,11 +42,11 @@ FoodExplorer is a cross-platform mobile application that allows users to discove
 - [x] Favourites with local persistence
 - [x] Input validation and error handling
 
-### Phase 3 — Advanced Hardware Features
-- [ ] Shake-to-random-recipe (Accelerometer, Hardware #3)
-- [ ] Text-to-Speech recipe narration (Hardware #4)
-- [ ] Gyroscope / Magnetometer integration (Hardware #5)
-- [ ] Haptic feedback & vibration (Hardware #6)
+### Phase 3 — Advanced Hardware Features *(complete)*
+- [x] Shake-to-random-recipe (Accelerometer, Hardware #3)
+- [x] Text-to-Speech recipe narration (Hardware #4)
+- [x] Gyroscope / Magnetometer integration (Hardware #5)
+- [x] Haptic feedback & vibration (Hardware #6)
 
 ### Phase 4 — Deployment & Polish
 - [ ] Android phone + Android tablet responsive layout

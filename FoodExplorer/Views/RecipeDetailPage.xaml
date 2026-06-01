@@ -18,6 +18,9 @@
             </ResourceDictionary.MergedDictionaries>
             <converters:BoolToHeartConverter x:Key="BoolToHeartConverter" />
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+            <converters:StepHighlightConverter x:Key="StepHighlightConverter" />
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -171,13 +174,67 @@
 
                     <VerticalStackLayout Spacing="8">
                         <Label Style="{StaticResource TitleSmall}" Text="Instructions" SemanticProperties.HeadingLevel="Level2" />
+
+                        <!-- TTS + Compass (Hardware #4 & #5) -->
+                        <Border
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                            Padding="12"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="1">
+                            <VerticalStackLayout Spacing="8">
+                                <Label
+                                    FontSize="13"
+                                    Text="{Binding CompassDisplay}"
+                                    TextColor="{StaticResource Secondary}" />
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding SensorHint}"
+                                    TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding NarrateRecipeCommand}"
+                                        IsEnabled="{Binding IsNarrating, Converter={StaticResource InvertedBoolConverter}}"
+                                        MinimumHeightRequest="44"
+                                        Text="🔊 Read Aloud"
+                                        SemanticProperties.Description="Read recipe instructions aloud using text to speech" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding StopNarrationCommand}"
+                                        MinimumHeightRequest="44"
+                                        Text="⏹ Stop"
+                                        SemanticProperties.Description="Stop text to speech narration" />
+                                </Grid>
+                                <Label
+                                    FontSize="12"
+                                    IsVisible="{Binding NarrationStatusMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                                    Text="{Binding NarrationStatusMessage}"
+                                    TextColor="{StaticResource Primary}" />
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                    <Button
+                                        Grid.Column="0"
+                                        Command="{Binding PreviousStepCommand}"
+                                        MinimumHeightRequest="44"
+                                        Text="◀ Prev Step"
+                                        SemanticProperties.Description="Go to previous instruction step" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Command="{Binding NextStepCommand}"
+                                        MinimumHeightRequest="44"
+                                        Text="Next Step ▶"
+                                        SemanticProperties.Description="Go to next instruction step" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding InstructionSteps}" Spacing="12">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="vm:InstructionStep">
                                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                                         <Border
                                             Grid.Column="0"
-                                            BackgroundColor="{StaticResource Primary}"
+                                            BackgroundColor="{Binding IsCurrent, Converter={StaticResource StepHighlightConverter}}"
                                             HeightRequest="28"
                                             StrokeThickness="0"
                                             StrokeShape="RoundRectangle 14"
@@ -194,7 +251,8 @@
                                         <Label
                                             Grid.Column="1"
                                             FontSize="14"
-                                            Text="{Binding Text}" />
+                                            Text="{Binding Text}"
+                                            TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                                     </Grid>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>

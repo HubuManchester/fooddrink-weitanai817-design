@@ -16,6 +16,13 @@ public partial class HomePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        _viewModel.StartShakeMonitoring();
         await _viewModel.LoadDataCommand.ExecuteAsync(null);
+    }
+
+    protected override void OnDisappearing()
+    {
+        _viewModel.StopShakeMonitoring();
+        base.OnDisappearing();
     }
 }

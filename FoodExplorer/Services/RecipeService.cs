@@ -132,6 +132,18 @@ public class RecipeService : IRecipeService
 
     public bool IsFavourite(int recipeId) => _favouriteIds.Contains(recipeId);
 
+    public async Task<Recipe?> GetRandomRecipeAsync()
+    {
+        await EnsureInitialisedAsync();
+        if (_recipes is null || _recipes.Count == 0)
+            return null;
+
+        var index = Random.Shared.Next(_recipes.Count);
+        var recipe = _recipes[index];
+        recipe.IsFavourite = _favouriteIds.Contains(recipe.Id);
+        return recipe;
+    }
+
     private async Task EnsureInitialisedAsync()
     {
         if (_initialised) return;

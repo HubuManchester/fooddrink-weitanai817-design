@@ -22,4 +22,5 @@ public interface IRecipeService
     Task<bool> ToggleFavouriteAsync(int recipeId);
     Task<IReadOnlyList<int>> GetFavouriteIdsAsync();
     bool IsFavourite(int recipeId);
+    Task<Recipe?> GetRandomRecipeAsync();
 }
