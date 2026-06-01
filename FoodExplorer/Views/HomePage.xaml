@@ -88,6 +88,8 @@
                                 <Grid RowDefinitions="120,*">
                                     <controls:CachedImageView
                                         Grid.Row="0"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill"
                                         ImageFileName="{Binding ImageUri}"
                                         SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
                                     <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="4">

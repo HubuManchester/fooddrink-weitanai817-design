@@ -23,13 +23,25 @@ public partial class CachedImageView : ContentView
         set => SetValue(ImageFileNameProperty, value);
     }
 
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        UpdateImageSource();
+    }
+
     private static void OnImageFileNameChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not CachedImageView view)
-            return;
+        if (bindable is CachedImageView view)
+            view.UpdateImageSource();
+    }
 
-        var fileName = newValue as string;
-        var cache = Application.Current?.Handler?.MauiContext?.Services.GetService<IImageCacheService>();
-        view.Photo.Source = cache?.GetImage(fileName ?? string.Empty) ?? ImageSource.FromFile("dotnet_bot.png");
+    private void UpdateImageSource()
+    {
+        var fileName = ImageFileName;
+        if (string.IsNullOrWhiteSpace(fileName))
+            fileName = "dotnet_bot.png";
+
+        var cache = Handler?.MauiContext?.Services.GetService<IImageCacheService>();
+        Photo.Source = cache?.GetImage(fileName) ?? ImageSource.FromFile(fileName);
     }
 }

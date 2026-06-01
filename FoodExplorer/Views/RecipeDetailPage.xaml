@@ -39,6 +39,8 @@
                 <Grid>
                     <controls:CachedImageView
                         HeightRequest="240"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
                         ImageFileName="{Binding Recipe.ImageUri}"
                         SemanticProperties.Description="{Binding Recipe.Name, StringFormat='Photo of {0}'}" />
 

@@ -2,19 +2,16 @@
 <ContentView
     x:Class="FoodExplorer.Controls.CachedImageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    HorizontalOptions="Fill"
+    VerticalOptions="Fill">
 
     <Grid>
-        <ActivityIndicator
-            x:Name="LoadingIndicator"
-            HorizontalOptions="Center"
-            IsRunning="True"
-            IsVisible="False"
-            VerticalOptions="Center"
-            Color="{StaticResource Primary}" />
         <Image
             x:Name="Photo"
-            Aspect="AspectFill" />
+            Aspect="AspectFill"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
     </Grid>
 
 </ContentView>

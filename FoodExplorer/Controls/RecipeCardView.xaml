@@ -28,7 +28,10 @@
 
         <Grid RowDefinitions="140,Auto" RowSpacing="0">
             <Grid Grid.Row="0">
-                <controls:CachedImageView ImageFileName="{Binding ImageUri}"
+                <controls:CachedImageView
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    ImageFileName="{Binding ImageUri}"
                     SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
 
                 <Button
