@@ -39,8 +39,5 @@ FoodDrinkApp_GitHub_Upload.zip
 # Logs
 *.log
 
-# Cursor IDE
-.cursor/
-
 # Android/Java build temp files
 javac.*.args
