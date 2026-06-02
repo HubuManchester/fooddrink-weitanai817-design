@@ -9,4 +9,6 @@ public record CameraCaptureResult(bool Success, ImageSource? Image, string? Erro
 public interface ICameraService
 {
     Task<CameraCaptureResult> CapturePhotoAsync(CancellationToken cancellationToken = default);
+
+    Task<CameraCaptureResult> PickPhotoAsync(CancellationToken cancellationToken = default);
 }

@@ -34,6 +34,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IDeviceLayoutService, DeviceLayoutService>();
         builder.Services.AddSingleton<IImageCacheService, ImageCacheService>();
         builder.Services.AddSingleton<IAccessibilityService, AccessibilityService>();
+        builder.Services.AddSingleton<IMapLauncherService, MapLauncherService>();
 
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<RecipeListViewModel>();

@@ -167,7 +167,7 @@ public class RecipeService : IRecipeService
         try
         {
             using var stream = await FileSystem.OpenAppPackageFileAsync(RecipesFileName);
-            using var reader = new StreamReader(stream);
+            using var reader = new StreamReader(stream, System.Text.Encoding.UTF8);
             var json = await reader.ReadToEndAsync();
             var recipes = JsonSerializer.Deserialize<List<Recipe>>(json, JsonOptions);
             return recipes ?? GetFallbackRecipes();
@@ -242,6 +242,17 @@ public class RecipeService : IRecipeService
         "Mexican" => "🌮",
         "Dessert" => "🍰",
         "Healthy" => "🥗",
+        "Indian" => "🍛",
+        "American" => "🍔",
+        "Breakfast" => "🥞",
+        "Korean" => "🍚",
+        "Greek" => "🥙",
+        "Chinese" => "🥡",
+        "British" => "🐟",
+        "Spanish" => "🥘",
+        "Japanese" => "🍣",
+        "Middle Eastern" => "🧆",
+        "French" => "🥖",
         _ => "🍽️"
     };
 
@@ -252,6 +263,17 @@ public class RecipeService : IRecipeService
         "Mexican" => "#FFD166",
         "Dessert" => "#EF476F",
         "Healthy" => "#06D6A0",
+        "Indian" => "#E07A5F",
+        "American" => "#D62828",
+        "Breakfast" => "#F4A261",
+        "Korean" => "#E63946",
+        "Greek" => "#457B9D",
+        "Chinese" => "#E76F51",
+        "British" => "#264653",
+        "Spanish" => "#F77F00",
+        "Japanese" => "#2A9D8F",
+        "Middle Eastern" => "#6A994E",
+        "French" => "#9B5DE5",
         _ => "#FF6B35"
     };
 
@@ -275,7 +297,7 @@ public class RecipeService : IRecipeService
             IsFeatured = true,
             DietaryTags = ["Vegetarian"],
             Ingredients = [new Ingredient { Quantity = 1, Unit = "ball", Name = "pizza dough" }],
-            Steps = ["Preheat oven to 250°C.", "Roll out dough.", "Add toppings.", "Bake 12–15 min."]
+            Steps = ["Preheat oven to 250 degrees C.", "Roll out dough.", "Add toppings.", "Bake 12-15 min."]
         }
     ];
 }

@@ -2,12 +2,10 @@ namespace FoodExplorer.Services;
 
 /// <summary>
 /// Hardware #2 — Microphone / voice search.
-/// Requests microphone permission and delegates to the Android <c>SpeechRecognizer</c>
-/// to convert spoken queries into recipe search text.
+/// Android uses SpeechRecognizer; Windows uses WinRT speech recognition UI.
 /// </summary>
 public class VoiceSearchService : IVoiceSearchService
 {
-    /// <summary>Listens for a spoken search query and returns the recognised text.</summary>
     public async Task<VoiceSearchResult> ListenAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -22,9 +20,11 @@ public class VoiceSearchService : IVoiceSearchService
 
 #if ANDROID
             return await Platforms.Android.AndroidSpeechHelper.ListenAsync(cancellationToken);
+#elif WINDOWS
+            return await Platforms.Windows.WindowsSpeechHelper.ListenAsync(cancellationToken);
 #else
             await Task.CompletedTask;
-            return VoiceSearchResult.Fail("Voice search is only available on Android.");
+            return VoiceSearchResult.Fail("Voice search is not supported on this platform.");
 #endif
         }
         catch (PermissionException)
@@ -34,7 +34,11 @@ public class VoiceSearchService : IVoiceSearchService
         }
         catch (Exception ex)
         {
-            return VoiceSearchResult.Fail($"Voice search error: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[VoiceSearchService] {ex}");
+            return VoiceSearchResult.Fail(
+                string.IsNullOrWhiteSpace(ex.Message)
+                    ? "Voice search failed. Please try again."
+                    : ex.Message);
         }
     }
 }
