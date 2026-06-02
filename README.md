@@ -27,33 +27,37 @@ FoodExplorer is a cross-platform mobile application that allows users to discove
 ## 🛠️ Development Plan
 
 ### Phase 1 — Foundation & UI/UX Framework *(complete)*
-- [x] Shell-based navigation (AppShell)
-- [x] MVVM architecture (ViewModels + Models)
-- [x] Unified color theme with dark/light mode
-- [x] WCAG accessibility support (SemanticProperties, font scaling)
-- [x] Multi-page XAML structure (Home, RecipeList, RecipeDetail, Settings)
-- [x] Base services and converters
+
+- ✅ Shell-based navigation (AppShell)
+- ✅ MVVM architecture (ViewModels + Models)
+- ✅ Unified color theme with dark/light mode
+- ✅ WCAG accessibility support (SemanticProperties, font scaling)
+- ✅ Multi-page XAML structure (Home, RecipeList, RecipeDetail, Settings)
+- ✅ Base services and converters
 
 ### Phase 2 — Core Features & Hardware (1–2) *(complete)*
-- [x] Local JSON recipe data source
-- [x] Camera / dish photo capture (Hardware #1)
-- [x] Microphone / Voice search (Hardware #2)
-- [x] Search & filter functionality
-- [x] Favourites with local persistence
-- [x] Input validation and error handling
+
+- ✅ Local JSON recipe data source
+- ✅ Camera / dish photo capture (Hardware #1)
+- ✅ Microphone / Voice search (Hardware #2)
+- ✅ Search & filter functionality
+- ✅ Favourites with local persistence
+- ✅ Input validation and error handling
 
 ### Phase 3 — Advanced Hardware Features *(complete)*
-- [x] Shake-to-random-recipe (Accelerometer, Hardware #3)
-- [x] Text-to-Speech recipe narration (Hardware #4)
-- [x] Gyroscope / Magnetometer integration (Hardware #5 & #6)
-- [x] Haptic feedback & vibration (Hardware #7 & #8)
-- [x] Geolocation — find nearby restaurants (Hardware #9)
+
+- ✅ Shake-to-random-recipe (Accelerometer, Hardware #3)
+- ✅ Text-to-Speech recipe narration (Hardware #4)
+- ✅ Gyroscope / Magnetometer integration (Hardware #5 & #6)
+- ✅ Haptic feedback & vibration (Hardware #7 & #8)
+- ✅ Geolocation — find nearby restaurants (Hardware #9)
 
 ### Phase 4 — Deployment & Polish *(complete)*
-- [x] Android phone + Android tablet responsive layout
-- [x] Performance optimisation (image caching, lazy loading)
-- [x] Full code refactor (comments, classes, reusability)
-- [x] Final testing and bug fixes
+
+- ✅ Android phone + Android tablet responsive layout
+- ✅ Performance optimisation (image caching, lazy loading)
+- ✅ Full code refactor (comments, classes, reusability)
+- ✅ Final testing and bug fixes
 
 ---
 
@@ -80,7 +84,7 @@ dotnet build -f net8.0-android
 ### Deployment Targets
 - ✅ Android Phone Emulator (primary)
 - ✅ Android Tablet Emulator
-- ⬜ Windows (Phase 4)
+- ✅ Windows (WinUI 3)
 
 ---
 
@@ -138,6 +142,7 @@ FoodExplorer/
 |--------|--------|-------|
 | Android Phone Emulator | ✅ | Primary development target (API 33+) |
 | Android Tablet Emulator | ✅ | Responsive layout via `DeviceLayoutService` (2/3/4 column grid) |
+| Windows (WinUI 3) | ✅ | Visual Studio 2022 — `net8.0-windows10.0.19041.0` |
 
 ---
 
