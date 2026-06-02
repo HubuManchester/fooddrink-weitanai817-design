@@ -15,20 +15,47 @@
     "Rating": 4.8,
     "RatingCount": 324,
     "IsFeatured": true,
-    "DietaryTags": [ "Vegetarian" ],
+    "DietaryTags": [
+      "Vegetarian"
+    ],
     "Ingredients": [
-      { "Name": "pizza dough", "Quantity": 1, "Unit": "ball", "Note": null },
-      { "Name": "mozzarella", "Quantity": 200, "Unit": "g", "Note": "fresh" },
-      { "Name": "tomato sauce", "Quantity": 4, "Unit": "tbsp", "Note": null },
-      { "Name": "fresh basil", "Quantity": 10, "Unit": "leaves", "Note": null },
-      { "Name": "olive oil", "Quantity": 2, "Unit": "tbsp", "Note": "extra virgin" }
+      {
+        "Name": "pizza dough",
+        "Quantity": 1,
+        "Unit": "ball",
+        "Note": null
+      },
+      {
+        "Name": "mozzarella",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": "fresh"
+      },
+      {
+        "Name": "tomato sauce",
+        "Quantity": 4,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "fresh basil",
+        "Quantity": 10,
+        "Unit": "leaves",
+        "Note": null
+      },
+      {
+        "Name": "olive oil",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": "extra virgin"
+      }
     ],
     "Steps": [
-      "Preheat oven to 250°C with a pizza stone if available.",
+      "Preheat oven to 250 degrees C with a pizza stone if available.",
       "Roll out the dough on a lightly floured surface to about 30cm diameter.",
       "Spread tomato sauce evenly, leaving a 2cm border for the crust.",
       "Add torn mozzarella pieces over the sauce.",
-      "Bake for 12–15 minutes until the crust is golden and cheese is bubbling.",
+      "Bake for 12-15 minutes until the crust is golden and cheese is bubbling.",
       "Remove from oven and top with fresh basil leaves.",
       "Drizzle with extra virgin olive oil and serve immediately."
     ]
@@ -37,7 +64,7 @@
     "Id": 2,
     "Name": "Chicken Ramen Bowl",
     "Description": "Rich broth, tender chicken, and springy noodles.",
-    "FullDescription": "A comforting Japanese-style ramen with a deeply savoury chicken broth, perfectly soft-boiled eggs, and classic toppings. The broth is the heart of this dish — patient simmering rewards you with incredible depth of flavour.",
+    "FullDescription": "A comforting Japanese-style ramen with a deeply savoury chicken broth, perfectly soft-boiled eggs, and classic toppings. The broth is the heart of this dish - patient simmering rewards you with incredible depth of flavour.",
     "Category": "Asian",
     "Cuisine": "Japanese",
     "ImageFileName": "recipe_ramen.jpg",
@@ -49,15 +76,52 @@
     "Rating": 4.6,
     "RatingCount": 198,
     "IsFeatured": true,
-    "DietaryTags": [ "Dairy-Free" ],
+    "DietaryTags": [
+      "Dairy-Free"
+    ],
     "Ingredients": [
-      { "Name": "ramen noodles", "Quantity": 2, "Unit": "portions", "Note": null },
-      { "Name": "chicken stock", "Quantity": 500, "Unit": "ml", "Note": null },
-      { "Name": "chicken thighs", "Quantity": 2, "Unit": "", "Note": "boneless, skinless" },
-      { "Name": "soft-boiled eggs", "Quantity": 2, "Unit": "", "Note": null },
-      { "Name": "soy sauce", "Quantity": 3, "Unit": "tbsp", "Note": null },
-      { "Name": "sesame oil", "Quantity": 1, "Unit": "tsp", "Note": null },
-      { "Name": "spring onions", "Quantity": 2, "Unit": "", "Note": "sliced" }
+      {
+        "Name": "ramen noodles",
+        "Quantity": 2,
+        "Unit": "portions",
+        "Note": null
+      },
+      {
+        "Name": "chicken stock",
+        "Quantity": 500,
+        "Unit": "ml",
+        "Note": null
+      },
+      {
+        "Name": "chicken thighs",
+        "Quantity": 2,
+        "Unit": "",
+        "Note": "boneless, skinless"
+      },
+      {
+        "Name": "soft-boiled eggs",
+        "Quantity": 2,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "soy sauce",
+        "Quantity": 3,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "sesame oil",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "spring onions",
+        "Quantity": 2,
+        "Unit": "",
+        "Note": "sliced"
+      }
     ],
     "Steps": [
       "Simmer chicken stock with a thumb of ginger and 3 garlic cloves for 30 minutes.",
@@ -73,7 +137,7 @@
     "Id": 3,
     "Name": "Street-Style Tacos",
     "Description": "Spiced beef tacos with lime, onion, and cilantro.",
-    "FullDescription": "Inspired by Mexican street vendors — quick, bold flavours in every bite. The key is using fresh corn tortillas, properly seasoned meat, and simple but vibrant toppings. Less is more with street tacos.",
+    "FullDescription": "Inspired by Mexican street vendors - quick, bold flavours in every bite. The key is using fresh corn tortillas, properly seasoned meat, and simple but vibrant toppings. Less is more with street tacos.",
     "Category": "Mexican",
     "Cuisine": "Mexican",
     "ImageFileName": "recipe_tacos.jpg",
@@ -85,15 +149,52 @@
     "Rating": 4.7,
     "RatingCount": 412,
     "IsFeatured": true,
-    "DietaryTags": [ "Gluten-Free" ],
+    "DietaryTags": [
+      "Gluten-Free"
+    ],
     "Ingredients": [
-      { "Name": "ground beef", "Quantity": 400, "Unit": "g", "Note": "80% lean" },
-      { "Name": "corn tortillas", "Quantity": 8, "Unit": "", "Note": "small" },
-      { "Name": "lime", "Quantity": 1, "Unit": "", "Note": "cut into wedges" },
-      { "Name": "fresh cilantro", "Quantity": 1, "Unit": "bunch", "Note": null },
-      { "Name": "white onion", "Quantity": 1, "Unit": "", "Note": "finely diced" },
-      { "Name": "cumin", "Quantity": 1, "Unit": "tsp", "Note": null },
-      { "Name": "smoked paprika", "Quantity": 1, "Unit": "tsp", "Note": null }
+      {
+        "Name": "ground beef",
+        "Quantity": 400,
+        "Unit": "g",
+        "Note": "80% lean"
+      },
+      {
+        "Name": "corn tortillas",
+        "Quantity": 8,
+        "Unit": "",
+        "Note": "small"
+      },
+      {
+        "Name": "lime",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "cut into wedges"
+      },
+      {
+        "Name": "fresh cilantro",
+        "Quantity": 1,
+        "Unit": "bunch",
+        "Note": null
+      },
+      {
+        "Name": "white onion",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "finely diced"
+      },
+      {
+        "Name": "cumin",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "smoked paprika",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": null
+      }
     ],
     "Steps": [
       "Brown ground beef in a hot pan, breaking it apart as it cooks.",
@@ -108,7 +209,7 @@
     "Id": 4,
     "Name": "Berry Cheesecake",
     "Description": "Creamy no-bake cheesecake topped with mixed berries.",
-    "FullDescription": "A light and luscious dessert perfect for summer gatherings — no oven required. The creamy filling sets beautifully in the fridge, and the berry topping provides a gorgeous pop of colour and freshness.",
+    "FullDescription": "A light and luscious dessert perfect for summer gatherings - no oven required. The creamy filling sets beautifully in the fridge, and the berry topping provides a gorgeous pop of colour and freshness.",
     "Category": "Dessert",
     "Cuisine": "American",
     "ImageFileName": "recipe_cheesecake.jpg",
@@ -120,67 +221,69 @@
     "Rating": 4.9,
     "RatingCount": 567,
     "IsFeatured": false,
-    "DietaryTags": [ "Vegetarian" ],
+    "DietaryTags": [
+      "Vegetarian"
+    ],
     "Ingredients": [
-      { "Name": "cream cheese", "Quantity": 250, "Unit": "g", "Note": "full fat, room temperature" },
-      { "Name": "digestive biscuits", "Quantity": 200, "Unit": "g", "Note": null },
-      { "Name": "mixed berries", "Quantity": 300, "Unit": "g", "Note": "fresh or frozen" },
-      { "Name": "butter", "Quantity": 80, "Unit": "g", "Note": "melted" },
-      { "Name": "icing sugar", "Quantity": 80, "Unit": "g", "Note": null },
-      { "Name": "vanilla extract", "Quantity": 1, "Unit": "tsp", "Note": null },
-      { "Name": "double cream", "Quantity": 150, "Unit": "ml", "Note": "whipped to soft peaks" }
+      {
+        "Name": "cream cheese",
+        "Quantity": 250,
+        "Unit": "g",
+        "Note": "full fat, room temperature"
+      },
+      {
+        "Name": "digestive biscuits",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "mixed berries",
+        "Quantity": 300,
+        "Unit": "g",
+        "Note": "fresh or frozen"
+      },
+      {
+        "Name": "butter",
+        "Quantity": 80,
+        "Unit": "g",
+        "Note": "melted"
+      },
+      {
+        "Name": "icing sugar",
+        "Quantity": 80,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "vanilla extract",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "double cream",
+        "Quantity": 150,
+        "Unit": "ml",
+        "Note": "whipped to soft peaks"
+      }
     ],
     "Steps": [
       "Crush digestive biscuits into fine crumbs using a food processor or rolling pin.",
       "Mix crumbs with melted butter until combined. Press firmly into a 20cm springform tin.",
       "Refrigerate the base for 20 minutes until firm.",
       "Beat cream cheese with icing sugar and vanilla extract until completely smooth.",
-      "Fold in whipped double cream until just combined — do not overmix.",
+      "Fold in whipped double cream until just combined - do not overmix.",
       "Spread filling over the chilled base and smooth the top.",
       "Refrigerate for at least 4 hours or overnight until set.",
       "Top with fresh mixed berries before serving."
     ]
   },
   {
-    "Id": 5,
-    "Name": "Quinoa Buddha Bowl",
-    "Description": "Colourful bowl packed with protein, greens, and tahini dressing.",
-    "FullDescription": "A nourishing plant-forward meal that's as beautiful as it is satisfying. The roasted chickpeas add a wonderful crunch, the quinoa provides complete protein, and the tahini dressing ties everything together.",
-    "Category": "Healthy",
-    "Cuisine": "Mediterranean",
-    "ImageFileName": "recipe_buddha.jpg",
-    "PrepTimeMinutes": 20,
-    "CookTimeMinutes": 15,
-    "Servings": 2,
-    "Difficulty": 0,
-    "CaloriesPerServing": 420,
-    "Rating": 4.5,
-    "RatingCount": 143,
-    "IsFeatured": false,
-    "DietaryTags": [ "Vegan", "Gluten-Free" ],
-    "Ingredients": [
-      { "Name": "quinoa", "Quantity": 1, "Unit": "cup", "Note": "rinsed" },
-      { "Name": "chickpeas", "Quantity": 1, "Unit": "can", "Note": "drained and rinsed" },
-      { "Name": "mixed greens", "Quantity": 2, "Unit": "cups", "Note": "spinach or kale" },
-      { "Name": "tahini", "Quantity": 3, "Unit": "tbsp", "Note": null },
-      { "Name": "lemon juice", "Quantity": 2, "Unit": "tbsp", "Note": "freshly squeezed" },
-      { "Name": "olive oil", "Quantity": 2, "Unit": "tbsp", "Note": null },
-      { "Name": "cherry tomatoes", "Quantity": 150, "Unit": "g", "Note": "halved" }
-    ],
-    "Steps": [
-      "Cook quinoa in 2 cups of water with a pinch of salt for 15 minutes; fluff with a fork.",
-      "Toss drained chickpeas with olive oil, cumin, and paprika.",
-      "Roast chickpeas at 200°C for 20 minutes until crispy.",
-      "Whisk tahini with lemon juice, garlic, and 2–3 tbsp water until smooth.",
-      "Arrange mixed greens, quinoa, and cherry tomatoes in bowls.",
-      "Top with crispy chickpeas and drizzle generously with tahini dressing."
-    ]
-  },
-  {
     "Id": 6,
     "Name": "Spaghetti Carbonara",
     "Description": "Silky egg sauce with crispy pancetta and pecorino.",
-    "FullDescription": "The authentic Roman recipe — no cream, just technique and great ingredients. The secret is working quickly off the heat so the eggs form a silky sauce rather than scrambling. Proper carbonara is an art form.",
+    "FullDescription": "The authentic Roman recipe - no cream, just technique and great ingredients. The secret is working quickly off the heat so the eggs form a silky sauce rather than scrambling. Proper carbonara is an art form.",
     "Category": "Italian",
     "Cuisine": "Italian",
     "ImageFileName": "recipe_carbonara.jpg",
@@ -194,11 +297,36 @@
     "IsFeatured": false,
     "DietaryTags": [],
     "Ingredients": [
-      { "Name": "spaghetti", "Quantity": 400, "Unit": "g", "Note": null },
-      { "Name": "pancetta", "Quantity": 200, "Unit": "g", "Note": "diced" },
-      { "Name": "egg yolks", "Quantity": 4, "Unit": "", "Note": "room temperature" },
-      { "Name": "pecorino cheese", "Quantity": 80, "Unit": "g", "Note": "finely grated" },
-      { "Name": "black pepper", "Quantity": 2, "Unit": "tsp", "Note": "freshly cracked" }
+      {
+        "Name": "spaghetti",
+        "Quantity": 400,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "pancetta",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": "diced"
+      },
+      {
+        "Name": "egg yolks",
+        "Quantity": 4,
+        "Unit": "",
+        "Note": "room temperature"
+      },
+      {
+        "Name": "pecorino cheese",
+        "Quantity": 80,
+        "Unit": "g",
+        "Note": "finely grated"
+      },
+      {
+        "Name": "black pepper",
+        "Quantity": 2,
+        "Unit": "tsp",
+        "Note": "freshly cracked"
+      }
     ],
     "Steps": [
       "Cook spaghetti in well-salted boiling water until al dente. Reserve 1 cup pasta water.",
@@ -213,7 +341,7 @@
     "Id": 7,
     "Name": "Pad Thai",
     "Description": "Thailand's iconic stir-fried noodle dish with peanuts and lime.",
-    "FullDescription": "A perfectly balanced sweet, salty, sour, and umami stir-fry. The key is high heat and having all ingredients prepped before you start — pad thai cooks in minutes and cannot wait.",
+    "FullDescription": "A perfectly balanced sweet, salty, sour, and umami stir-fry. The key is high heat and having all ingredients prepped before you start - pad thai cooks in minutes and cannot wait.",
     "Category": "Asian",
     "Cuisine": "Thai",
     "ImageFileName": "recipe_padthai.jpg",
@@ -225,15 +353,52 @@
     "Rating": 4.6,
     "RatingCount": 234,
     "IsFeatured": true,
-    "DietaryTags": [ "Gluten-Free" ],
+    "DietaryTags": [
+      "Gluten-Free"
+    ],
     "Ingredients": [
-      { "Name": "rice noodles", "Quantity": 200, "Unit": "g", "Note": "flat, soaked 30 min" },
-      { "Name": "prawns", "Quantity": 200, "Unit": "g", "Note": "peeled and deveined" },
-      { "Name": "eggs", "Quantity": 2, "Unit": "", "Note": null },
-      { "Name": "bean sprouts", "Quantity": 100, "Unit": "g", "Note": null },
-      { "Name": "fish sauce", "Quantity": 2, "Unit": "tbsp", "Note": null },
-      { "Name": "tamarind paste", "Quantity": 2, "Unit": "tbsp", "Note": null },
-      { "Name": "peanuts", "Quantity": 40, "Unit": "g", "Note": "roasted and crushed" }
+      {
+        "Name": "rice noodles",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": "flat, soaked 30 min"
+      },
+      {
+        "Name": "prawns",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": "peeled and deveined"
+      },
+      {
+        "Name": "eggs",
+        "Quantity": 2,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "bean sprouts",
+        "Quantity": 100,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "fish sauce",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "tamarind paste",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "peanuts",
+        "Quantity": 40,
+        "Unit": "g",
+        "Note": "roasted and crushed"
+      }
     ],
     "Steps": [
       "Soak rice noodles in cold water for 30 minutes; drain well.",
@@ -249,7 +414,7 @@
     "Id": 8,
     "Name": "Classic Guacamole",
     "Description": "Fresh avocado dip with lime, chilli, and tomato.",
-    "FullDescription": "The only guacamole recipe you'll ever need. Using perfectly ripe avocados and keeping it chunky is the way to go. Never use a food processor — guacamole should be roughly mashed with character.",
+    "FullDescription": "The only guacamole recipe you'll ever need. Using perfectly ripe avocados and keeping it chunky is the way to go. Never use a food processor - guacamole should be roughly mashed with character.",
     "Category": "Mexican",
     "Cuisine": "Mexican",
     "ImageFileName": "recipe_guacamole.jpg",
@@ -261,22 +426,826 @@
     "Rating": 4.8,
     "RatingCount": 387,
     "IsFeatured": false,
-    "DietaryTags": [ "Vegan", "Gluten-Free" ],
+    "DietaryTags": [
+      "Vegan",
+      "Gluten-Free"
+    ],
     "Ingredients": [
-      { "Name": "ripe avocados", "Quantity": 3, "Unit": "", "Note": null },
-      { "Name": "lime juice", "Quantity": 2, "Unit": "tbsp", "Note": "freshly squeezed" },
-      { "Name": "jalapeño", "Quantity": 1, "Unit": "", "Note": "finely chopped, seeds removed" },
-      { "Name": "red onion", "Quantity": 0.25, "Unit": "", "Note": "finely diced" },
-      { "Name": "cherry tomatoes", "Quantity": 100, "Unit": "g", "Note": "diced" },
-      { "Name": "fresh cilantro", "Quantity": 2, "Unit": "tbsp", "Note": "chopped" }
+      {
+        "Name": "ripe avocados",
+        "Quantity": 3,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "lime juice",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": "freshly squeezed"
+      },
+      {
+        "Name": "jalapeno",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "finely chopped, seeds removed"
+      },
+      {
+        "Name": "red onion",
+        "Quantity": 0.25,
+        "Unit": "",
+        "Note": "finely diced"
+      },
+      {
+        "Name": "cherry tomatoes",
+        "Quantity": 100,
+        "Unit": "g",
+        "Note": "diced"
+      },
+      {
+        "Name": "fresh cilantro",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": "chopped"
+      }
     ],
     "Steps": [
       "Halve avocados, remove stones, and scoop flesh into a bowl.",
       "Add lime juice immediately to prevent browning.",
-      "Mash with a fork until roughly chunky — not smooth.",
-      "Fold in jalapeño, red onion, tomatoes, and cilantro.",
+      "Mash with a fork until roughly chunky - not smooth.",
+      "Fold in jalapeno, red onion, tomatoes, and cilantro.",
       "Season with salt and more lime if needed.",
       "Serve immediately with tortilla chips."
+    ]
+  },
+  {
+    "Id": 9,
+    "Name": "Butter Chicken",
+    "Description": "Creamy tomato curry with tender spiced chicken.",
+    "FullDescription": "A restaurant favourite made at home - marinated chicken simmered in a rich, buttery tomato sauce with warm spices. Serve with basmati rice or warm naan for a complete Indian feast.",
+    "Category": "Indian",
+    "Cuisine": "Indian",
+    "ImageFileName": "recipe_butter_chicken.jpg",
+    "PrepTimeMinutes": 20,
+    "CookTimeMinutes": 35,
+    "Servings": 4,
+    "Difficulty": 1,
+    "CaloriesPerServing": 490,
+    "Rating": 4.8,
+    "RatingCount": 512,
+    "IsFeatured": true,
+    "DietaryTags": [
+      "Gluten-Free"
+    ],
+    "Ingredients": [
+      {
+        "Name": "chicken thighs",
+        "Quantity": 600,
+        "Unit": "g",
+        "Note": "boneless, cubed"
+      },
+      {
+        "Name": "plain yoghurt",
+        "Quantity": 150,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "tomato passata",
+        "Quantity": 400,
+        "Unit": "ml",
+        "Note": null
+      },
+      {
+        "Name": "double cream",
+        "Quantity": 150,
+        "Unit": "ml",
+        "Note": null
+      },
+      {
+        "Name": "butter",
+        "Quantity": 50,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "garam masala",
+        "Quantity": 2,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "garlic",
+        "Quantity": 4,
+        "Unit": "cloves",
+        "Note": "minced"
+      }
+    ],
+    "Steps": [
+      "Marinate chicken in yoghurt, half the garam masala, and salt for at least 30 minutes.",
+      "Sear chicken in a hot pan until golden; set aside.",
+      "Saute onion and garlic in butter until soft. Add tomato passata and simmer 10 minutes.",
+      "Return chicken to the pan; simmer 15 minutes until cooked through.",
+      "Stir in cream and remaining garam masala. Simmer 5 minutes until silky.",
+      "Garnish with coriander and serve with rice or naan."
+    ]
+  },
+  {
+    "Id": 10,
+    "Name": "Classic Smash Burger",
+    "Description": "Crispy-edged beef patty with cheese and pickles.",
+    "FullDescription": "The secret to a great smash burger is a ripping-hot pan and thin patties pressed flat for maximum crust. Stack with melty cheese, tangy pickles, and a soft brioche bun.",
+    "Category": "American",
+    "Cuisine": "American",
+    "ImageFileName": "recipe_burger.jpg",
+    "PrepTimeMinutes": 15,
+    "CookTimeMinutes": 12,
+    "Servings": 4,
+    "Difficulty": 0,
+    "CaloriesPerServing": 620,
+    "Rating": 4.7,
+    "RatingCount": 891,
+    "IsFeatured": true,
+    "DietaryTags": [],
+    "Ingredients": [
+      {
+        "Name": "ground beef",
+        "Quantity": 500,
+        "Unit": "g",
+        "Note": "80/20 blend"
+      },
+      {
+        "Name": "brioche buns",
+        "Quantity": 4,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "cheddar slices",
+        "Quantity": 4,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "dill pickles",
+        "Quantity": 8,
+        "Unit": "slices",
+        "Note": null
+      },
+      {
+        "Name": "burger sauce",
+        "Quantity": 4,
+        "Unit": "tbsp",
+        "Note": "mayo + ketchup + mustard"
+      },
+      {
+        "Name": "white onion",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "thinly sliced"
+      }
+    ],
+    "Steps": [
+      "Divide beef into 4 loose balls; season generously with salt and pepper.",
+      "Heat a cast-iron pan until smoking. Place a ball on the pan and smash flat with a spatula.",
+      "Cook 2 minutes until deeply browned; flip, add cheese, and melt.",
+      "Toast buns cut-side down in the same pan.",
+      "Stack patty on bun with sauce, pickles, and onion. Serve immediately."
+    ]
+  },
+  {
+    "Id": 11,
+    "Name": "Fluffy Buttermilk Pancakes",
+    "Description": "Light, stackable pancakes with maple syrup.",
+    "FullDescription": "Weekend breakfast perfection - tall, tender pancakes with a slight tang from buttermilk. The batter should be lumpy; overmixing is the enemy of fluffiness.",
+    "Category": "Breakfast",
+    "Cuisine": "American",
+    "ImageFileName": "recipe_pancakes.jpg",
+    "PrepTimeMinutes": 10,
+    "CookTimeMinutes": 15,
+    "Servings": 4,
+    "Difficulty": 0,
+    "CaloriesPerServing": 320,
+    "Rating": 4.6,
+    "RatingCount": 445,
+    "IsFeatured": false,
+    "DietaryTags": [
+      "Vegetarian"
+    ],
+    "Ingredients": [
+      {
+        "Name": "plain flour",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "buttermilk",
+        "Quantity": 300,
+        "Unit": "ml",
+        "Note": null
+      },
+      {
+        "Name": "eggs",
+        "Quantity": 2,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "baking powder",
+        "Quantity": 2,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "butter",
+        "Quantity": 30,
+        "Unit": "g",
+        "Note": "melted"
+      },
+      {
+        "Name": "maple syrup",
+        "Quantity": 4,
+        "Unit": "tbsp",
+        "Note": "to serve"
+      }
+    ],
+    "Steps": [
+      "Whisk flour, baking powder, sugar, and a pinch of salt in a large bowl.",
+      "Beat eggs into buttermilk; fold into dry ingredients with melted butter until just combined.",
+      "Rest batter 5 minutes while heating a lightly buttered non-stick pan over medium heat.",
+      "Pour 1/4 cup batter per pancake; cook until bubbles form, then flip.",
+      "Cook 1-2 minutes more until golden. Keep warm and repeat.",
+      "Serve stacked with butter and maple syrup."
+    ]
+  },
+  {
+    "Id": 12,
+    "Name": "Korean Bibimbap",
+    "Description": "Rice bowl with vegetables, egg, and gochujang.",
+    "FullDescription": "A colourful Korean classic - warm rice topped with seasoned vegetables, marinated beef, a fried egg, and spicy gochujang sauce. Mix everything together before eating for the full experience.",
+    "Category": "Korean",
+    "Cuisine": "Korean",
+    "ImageFileName": "recipe_bibimbap.jpg",
+    "PrepTimeMinutes": 25,
+    "CookTimeMinutes": 20,
+    "Servings": 2,
+    "Difficulty": 1,
+    "CaloriesPerServing": 540,
+    "Rating": 4.7,
+    "RatingCount": 267,
+    "IsFeatured": true,
+    "DietaryTags": [
+      "Dairy-Free"
+    ],
+    "Ingredients": [
+      {
+        "Name": "short-grain rice",
+        "Quantity": 2,
+        "Unit": "cups",
+        "Note": "cooked"
+      },
+      {
+        "Name": "beef mince",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "spinach",
+        "Quantity": 150,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "carrot",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "julienned"
+      },
+      {
+        "Name": "gochujang",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "eggs",
+        "Quantity": 2,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "sesame oil",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      }
+    ],
+    "Steps": [
+      "Cook rice and keep warm. Season and saute beef until caramelised; set aside.",
+      "Blanch spinach; squeeze dry and toss with sesame oil and salt.",
+      "Stir-fry carrot and other vegetables separately until tender-crisp.",
+      "Fry eggs sunny-side up with runny yolks.",
+      "Arrange rice in bowls; top with beef, vegetables, egg, and gochujang.",
+      "Drizzle with sesame oil and serve; mix at the table."
+    ]
+  },
+  {
+    "Id": 14,
+    "Name": "Egg Fried Rice",
+    "Description": "Wok-tossed rice with egg, peas, and soy sauce.",
+    "FullDescription": "The best fried rice uses day-old chilled rice and fierce wok heat. Each grain should be separate and lightly smoky - a perfect way to use leftover rice.",
+    "Category": "Chinese",
+    "Cuisine": "Chinese",
+    "ImageFileName": "recipe_fried_rice.jpg",
+    "PrepTimeMinutes": 10,
+    "CookTimeMinutes": 8,
+    "Servings": 3,
+    "Difficulty": 0,
+    "CaloriesPerServing": 380,
+    "Rating": 4.6,
+    "RatingCount": 356,
+    "IsFeatured": false,
+    "DietaryTags": [
+      "Dairy-Free"
+    ],
+    "Ingredients": [
+      {
+        "Name": "cooked jasmine rice",
+        "Quantity": 4,
+        "Unit": "cups",
+        "Note": "day-old, cold"
+      },
+      {
+        "Name": "eggs",
+        "Quantity": 3,
+        "Unit": "",
+        "Note": "beaten"
+      },
+      {
+        "Name": "frozen peas",
+        "Quantity": 100,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "spring onions",
+        "Quantity": 3,
+        "Unit": "",
+        "Note": "sliced"
+      },
+      {
+        "Name": "light soy sauce",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "sesame oil",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "vegetable oil",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      }
+    ],
+    "Steps": [
+      "Heat wok over highest heat until smoking. Add oil.",
+      "Scramble eggs quickly; break into pieces and push aside.",
+      "Add rice; toss and press against the wok to char slightly.",
+      "Add peas and soy sauce; toss vigorously 2-3 minutes.",
+      "Finish with spring onions and sesame oil. Serve immediately."
+    ]
+  },
+  {
+    "Id": 16,
+    "Name": "Seafood Paella",
+    "Description": "Saffron rice with prawns, mussels, and peppers.",
+    "FullDescription": "Spain's most famous rice dish - socarrat, the crispy caramelised layer at the bottom, is the prize. Use a wide shallow pan and resist stirring once the stock is added.",
+    "Category": "Spanish",
+    "Cuisine": "Spanish",
+    "ImageFileName": "recipe_paella.jpg",
+    "PrepTimeMinutes": 25,
+    "CookTimeMinutes": 35,
+    "Servings": 4,
+    "Difficulty": 2,
+    "CaloriesPerServing": 510,
+    "Rating": 4.8,
+    "RatingCount": 334,
+    "IsFeatured": true,
+    "DietaryTags": [
+      "Dairy-Free"
+    ],
+    "Ingredients": [
+      {
+        "Name": "paella rice",
+        "Quantity": 320,
+        "Unit": "g",
+        "Note": "bomba or calasparra"
+      },
+      {
+        "Name": "prawns",
+        "Quantity": 12,
+        "Unit": "",
+        "Note": "shell-on"
+      },
+      {
+        "Name": "mussels",
+        "Quantity": 500,
+        "Unit": "g",
+        "Note": "cleaned"
+      },
+      {
+        "Name": "saffron threads",
+        "Quantity": 1,
+        "Unit": "pinch",
+        "Note": null
+      },
+      {
+        "Name": "smoked paprika",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "roasted red pepper",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "sliced"
+      },
+      {
+        "Name": "fish stock",
+        "Quantity": 800,
+        "Unit": "ml",
+        "Note": "hot"
+      }
+    ],
+    "Steps": [
+      "Steep saffron in 2 tbsp warm stock. Saute onion and garlic in olive oil.",
+      "Add rice; stir 1 minute to coat. Add paprika and saffron stock.",
+      "Pour in hot stock; spread rice evenly. Do not stir from this point.",
+      "Simmer 15 minutes; nestle prawns, mussels, and pepper into the rice.",
+      "Cook 10 more minutes until rice is tender and socarrat forms at the base.",
+      "Cover with a towel 5 minutes; serve straight from the pan with lemon wedges."
+    ]
+  },
+  {
+    "Id": 17,
+    "Name": "Salmon Poke Bowl",
+    "Description": "Fresh salmon, avocado, and sushi rice bowl.",
+    "FullDescription": "Hawaiian-inspired healthy bowl - cubed sashimi-grade salmon marinated briefly in soy and sesame, served over seasoned rice with creamy avocado and crunchy vegetables.",
+    "Category": "Japanese",
+    "Cuisine": "Japanese",
+    "ImageFileName": "recipe_poke.jpg",
+    "PrepTimeMinutes": 20,
+    "CookTimeMinutes": 15,
+    "Servings": 2,
+    "Difficulty": 1,
+    "CaloriesPerServing": 460,
+    "Rating": 4.7,
+    "RatingCount": 221,
+    "IsFeatured": true,
+    "DietaryTags": [
+      "Gluten-Free",
+      "Dairy-Free"
+    ],
+    "Ingredients": [
+      {
+        "Name": "sashimi-grade salmon",
+        "Quantity": 300,
+        "Unit": "g",
+        "Note": "cubed"
+      },
+      {
+        "Name": "sushi rice",
+        "Quantity": 2,
+        "Unit": "cups",
+        "Note": "cooked"
+      },
+      {
+        "Name": "avocado",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "sliced"
+      },
+      {
+        "Name": "edamame",
+        "Quantity": 100,
+        "Unit": "g",
+        "Note": "shelled"
+      },
+      {
+        "Name": "soy sauce",
+        "Quantity": 3,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "rice vinegar",
+        "Quantity": 1,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "sesame seeds",
+        "Quantity": 1,
+        "Unit": "tbsp",
+        "Note": "toasted"
+      }
+    ],
+    "Steps": [
+      "Cook sushi rice; season with rice vinegar and a pinch of sugar.",
+      "Toss salmon cubes with 1 tbsp soy sauce and sesame oil; chill 10 minutes.",
+      "Divide rice between bowls. Arrange salmon, avocado, and edamame on top.",
+      "Drizzle with remaining soy sauce and sprinkle with sesame seeds.",
+      "Serve immediately while salmon is cold and fresh."
+    ]
+  },
+  {
+    "Id": 20,
+    "Name": "Fudgy Chocolate Brownies",
+    "Description": "Dense, gooey-centred brownies with crackly top.",
+    "FullDescription": "The ultimate chocolate fix - a thin, crackly crust giving way to a fudgy, underbaked centre. Use good dark chocolate and do not overbake.",
+    "Category": "Dessert",
+    "Cuisine": "American",
+    "ImageFileName": "recipe_brownies.jpg",
+    "PrepTimeMinutes": 15,
+    "CookTimeMinutes": 28,
+    "Servings": 12,
+    "Difficulty": 0,
+    "CaloriesPerServing": 290,
+    "Rating": 4.9,
+    "RatingCount": 678,
+    "IsFeatured": false,
+    "DietaryTags": [
+      "Vegetarian"
+    ],
+    "Ingredients": [
+      {
+        "Name": "dark chocolate",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": "70% cocoa"
+      },
+      {
+        "Name": "unsalted butter",
+        "Quantity": 150,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "caster sugar",
+        "Quantity": 250,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "eggs",
+        "Quantity": 3,
+        "Unit": "",
+        "Note": "large"
+      },
+      {
+        "Name": "plain flour",
+        "Quantity": 80,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "cocoa powder",
+        "Quantity": 30,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "vanilla extract",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": null
+      }
+    ],
+    "Steps": [
+      "Melt chocolate and butter together; cool slightly.",
+      "Whisk in sugar, then eggs one at a time, then vanilla.",
+      "Fold in flour, cocoa, and a pinch of salt until just combined.",
+      "Pour into a lined 20cm square tin.",
+      "Bake at 180 degrees C for 25-28 minutes - centre should still wobble slightly.",
+      "Cool completely before cutting for clean squares."
+    ]
+  },
+  {
+    "Id": 21,
+    "Name": "Kung Pao Chicken",
+    "Description": "Spicy stir-fry with peanuts, chillies, and tender chicken.",
+    "FullDescription": "A Sichuan classic balancing heat, sweetness, and crunch - diced chicken wok-fried with dried chillies, Sichuan peppercorn, and roasted peanuts. Best served with steamed rice.",
+    "Category": "Chinese",
+    "Cuisine": "Sichuan",
+    "ImageFileName": "recipe_kungpao.jpg",
+    "PrepTimeMinutes": 20,
+    "CookTimeMinutes": 12,
+    "Servings": 4,
+    "Difficulty": 1,
+    "CaloriesPerServing": 420,
+    "Rating": 4.8,
+    "RatingCount": 523,
+    "IsFeatured": true,
+    "DietaryTags": [
+      "Dairy-Free"
+    ],
+    "Ingredients": [
+      {
+        "Name": "chicken breast",
+        "Quantity": 500,
+        "Unit": "g",
+        "Note": "cubed"
+      },
+      {
+        "Name": "roasted peanuts",
+        "Quantity": 80,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "dried red chillies",
+        "Quantity": 8,
+        "Unit": "",
+        "Note": null
+      },
+      {
+        "Name": "light soy sauce",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "black vinegar",
+        "Quantity": 1,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "Sichuan peppercorn",
+        "Quantity": 1,
+        "Unit": "tsp",
+        "Note": "toasted"
+      },
+      {
+        "Name": "spring onions",
+        "Quantity": 3,
+        "Unit": "",
+        "Note": "sliced"
+      }
+    ],
+    "Steps": [
+      "Marinate chicken with soy sauce, shaoxing wine, and cornflour for 15 minutes.",
+      "Heat wok until smoking; stir-fry chicken until just cooked; remove.",
+      "Fry dried chillies and peppercorn in oil until fragrant; add garlic and ginger.",
+      "Return chicken; add sauce of soy, vinegar, sugar, and a splash of stock.",
+      "Toss in peanuts and spring onions; serve immediately over rice."
+    ]
+  },
+  {
+    "Id": 22,
+    "Name": "Sweet and Sour Pork",
+    "Description": "Crispy pork pieces in tangy glossy sauce.",
+    "FullDescription": "Cantonese comfort food - twice-fried pork stays crisp while bell peppers and pineapple add colour and sweetness to the balanced sweet-and-sour glaze.",
+    "Category": "Chinese",
+    "Cuisine": "Cantonese",
+    "ImageFileName": "recipe_sweet_sour_pork.jpg",
+    "PrepTimeMinutes": 25,
+    "CookTimeMinutes": 20,
+    "Servings": 4,
+    "Difficulty": 1,
+    "CaloriesPerServing": 510,
+    "Rating": 4.6,
+    "RatingCount": 389,
+    "IsFeatured": true,
+    "DietaryTags": [],
+    "Ingredients": [
+      {
+        "Name": "pork shoulder",
+        "Quantity": 500,
+        "Unit": "g",
+        "Note": "cubed"
+      },
+      {
+        "Name": "cornflour",
+        "Quantity": 100,
+        "Unit": "g",
+        "Note": "for coating"
+      },
+      {
+        "Name": "rice vinegar",
+        "Quantity": 3,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "ketchup",
+        "Quantity": 3,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "pineapple chunks",
+        "Quantity": 200,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "red bell pepper",
+        "Quantity": 1,
+        "Unit": "",
+        "Note": "chunked"
+      },
+      {
+        "Name": "caster sugar",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      }
+    ],
+    "Steps": [
+      "Coat pork in seasoned cornflour. Deep-fry at 180 degrees C until pale gold; drain.",
+      "Increase oil to 190 degrees C; fry pork again until crisp and deep golden.",
+      "Stir-fry peppers and pineapple briefly in a clean wok.",
+      "Add vinegar, ketchup, sugar, and a little water; simmer until glossy.",
+      "Toss pork through sauce; serve hot with steamed rice."
+    ]
+  },
+  {
+    "Id": 23,
+    "Name": "Mapo Tofu",
+    "Description": "Silken tofu in spicy bean paste and minced pork sauce.",
+    "FullDescription": "Ma po dou fu - numbing, spicy, and deeply savoury. The key is doubanjiang (fermented chilli bean paste) and a sprinkle of Sichuan peppercorn powder at the end.",
+    "Category": "Chinese",
+    "Cuisine": "Sichuan",
+    "ImageFileName": "recipe_mapo_tofu.jpg",
+    "PrepTimeMinutes": 10,
+    "CookTimeMinutes": 15,
+    "Servings": 3,
+    "Difficulty": 1,
+    "CaloriesPerServing": 320,
+    "Rating": 4.7,
+    "RatingCount": 445,
+    "IsFeatured": false,
+    "DietaryTags": [
+      "Dairy-Free"
+    ],
+    "Ingredients": [
+      {
+        "Name": "silken tofu",
+        "Quantity": 400,
+        "Unit": "g",
+        "Note": "cubed"
+      },
+      {
+        "Name": "pork mince",
+        "Quantity": 150,
+        "Unit": "g",
+        "Note": null
+      },
+      {
+        "Name": "doubanjiang",
+        "Quantity": 2,
+        "Unit": "tbsp",
+        "Note": null
+      },
+      {
+        "Name": "garlic",
+        "Quantity": 3,
+        "Unit": "cloves",
+        "Note": "minced"
+      },
+      {
+        "Name": "chicken stock",
+        "Quantity": 200,
+        "Unit": "ml",
+        "Note": null
+      },
+      {
+        "Name": "Sichuan peppercorn powder",
+        "Quantity": 0.5,
+        "Unit": "tsp",
+        "Note": null
+      },
+      {
+        "Name": "spring onions",
+        "Quantity": 2,
+        "Unit": "",
+        "Note": "sliced"
+      }
+    ],
+    "Steps": [
+      "Blanch tofu cubes in salted water 2 minutes; drain gently.",
+      "Brown pork mince in oil; add garlic and doubanjiang; fry until fragrant.",
+      "Pour in stock; slide in tofu carefully. Simmer 8 minutes without stirring hard.",
+      "Thicken with cornflour slurry until sauce coats the tofu.",
+      "Finish with peppercorn powder and spring onions. Serve with rice."
     ]
   }
 ]
