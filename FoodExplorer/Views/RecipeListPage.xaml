@@ -133,9 +133,12 @@
             VerticalOptions="Center"
             Color="{StaticResource Secondary}" />
 
+        <RefreshView
+            Grid.Row="5"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
         <CollectionView
             x:Name="RecipeCollection"
-            Grid.Row="5"
             IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
             ItemsSource="{Binding Recipes}"
             SelectionMode="None">
@@ -171,6 +174,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </RefreshView>
 
         </Grid>
 

@@ -8,6 +8,8 @@
     xmlns:vm="clr-namespace:FoodExplorer.ViewModels"
     xmlns:converters="clr-namespace:FoodExplorer.Converters"
     Title="{Binding Title}"
+    Shell.NavBarIsVisible="True"
+    Shell.TabBarIsVisible="False"
     x:DataType="vm:RecipeDetailViewModel"
     BackgroundColor="{AppThemeBinding Light=#FFF8F5, Dark=#1A1A2E}">
 
@@ -25,7 +27,20 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
+    <Grid RowDefinitions="Auto,*">
+        <Button
+            Grid.Row="0"
+            BackgroundColor="Transparent"
+            Command="{Binding GoBackCommand}"
+            FontSize="16"
+            HorizontalOptions="Start"
+            Margin="8,4"
+            MinimumHeightRequest="44"
+            Text="← Back"
+            TextColor="{StaticResource Primary}"
+            SemanticProperties.Description="Go back to previous page" />
+
+        <Grid Grid.Row="1">
         <ActivityIndicator
             HorizontalOptions="Center"
             IsRunning="{Binding IsBusy}"
@@ -77,25 +92,25 @@
                         <Border Grid.Column="0" Style="{StaticResource CardBorder}" Padding="8">
                             <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
                                 <Label FontSize="11" HorizontalOptions="Center" Text="Time" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
-                                <Label FontFamily="OpenSansSemibold" FontSize="14" HorizontalOptions="Center" Text="{Binding Recipe.TotalTimeDisplay}" />
+                                <Label FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" Text="{Binding DetailTotalTime}" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                             </VerticalStackLayout>
                         </Border>
                         <Border Grid.Column="1" Style="{StaticResource CardBorder}" Padding="8">
                             <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
                                 <Label FontSize="11" HorizontalOptions="Center" Text="Servings" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
-                                <Label FontFamily="OpenSansSemibold" FontSize="14" HorizontalOptions="Center" Text="{Binding Recipe.Servings}" />
+                                <Label FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" Text="{Binding DetailServings}" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                             </VerticalStackLayout>
                         </Border>
                         <Border Grid.Column="2" Style="{StaticResource CardBorder}" Padding="8">
                             <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
                                 <Label FontSize="11" HorizontalOptions="Center" Text="Calories" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
-                                <Label FontFamily="OpenSansSemibold" FontSize="14" HorizontalOptions="Center" Text="{Binding Recipe.CaloriesPerServing}" />
+                                <Label FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" Text="{Binding DetailCalories}" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                             </VerticalStackLayout>
                         </Border>
                         <Border Grid.Column="3" Style="{StaticResource CardBorder}" Padding="8">
                             <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
                                 <Label FontSize="11" HorizontalOptions="Center" Text="Rating" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
-                                <Label FontFamily="OpenSansSemibold" FontSize="14" HorizontalOptions="Center" Text="{Binding Recipe.RatingDisplay}" />
+                                <Label FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" Text="{Binding DetailRating}" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                             </VerticalStackLayout>
                         </Border>
                     </Grid>
@@ -128,22 +143,33 @@
                             <Grid>
                                 <Label
                                     HorizontalOptions="Center"
-                                    Text="📷 No photo yet"
+                                    IsVisible="{Binding HasCapturedPhoto, Converter={StaticResource InvertedBoolConverter}}"
+                                    Text="No photo yet — use camera or gallery below"
                                     TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                                     VerticalOptions="Center" />
                                 <Image
                                     Aspect="AspectFill"
-                                    IsVisible="{Binding CapturedPhoto, Converter={StaticResource IsNotNullConverter}}"
+                                    IsVisible="{Binding HasCapturedPhoto}"
                                     Source="{Binding CapturedPhoto}"
                                     SemanticProperties.Description="Photo of your cooked dish" />
                             </Grid>
                         </Border>
-                        <Button
-                            Command="{Binding CapturePhotoCommand}"
-                            MinimumHeightRequest="44"
-                            Style="{StaticResource PrimaryButton}"
-                            Text="📷 Capture Dish Photo"
-                            SemanticProperties.Description="Take a photo of your dish using the camera" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <Button
+                                Grid.Column="0"
+                                Command="{Binding CapturePhotoCommand}"
+                                MinimumHeightRequest="44"
+                                Style="{StaticResource PrimaryButton}"
+                                Text="📷 Camera"
+                                SemanticProperties.Description="Take a photo of your dish using the camera" />
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding PickPhotoFromGalleryCommand}"
+                                MinimumHeightRequest="44"
+                                Style="{StaticResource SecondaryButton}"
+                                Text="🖼 Gallery"
+                                SemanticProperties.Description="Choose a dish photo from your photo library" />
+                        </Grid>
                         <Border
                             BackgroundColor="{StaticResource Secondary}"
                             IsVisible="{Binding HasPhotoStatus}"
@@ -272,8 +298,8 @@
                             Command="{Binding FindNearbyRestaurantsCommand}"
                             MinimumHeightRequest="44"
                             Style="{StaticResource PrimaryButton}"
-                            Text="📍 Find Nearby Restaurants"
-                            SemanticProperties.Description="Use your location to find nearby restaurants serving this cuisine" />
+                            Text="📍 Open in Maps"
+                            SemanticProperties.Description="Open maps to find nearby restaurants serving this cuisine" />
                         <Border
                             BackgroundColor="{StaticResource Secondary}"
                             IsVisible="{Binding HasLocationStatus}"
@@ -290,6 +316,7 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
+        </Grid>
     </Grid>
 
 </ContentPage>

@@ -21,6 +21,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <RefreshView
+        Command="{Binding RefreshDataCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
     <ScrollView>
         <VerticalStackLayout
             x:Name="ContentLayout"
@@ -59,11 +62,6 @@
                         SemanticProperties.Description="Browse all recipes" />
                 </Grid>
 
-                <ActivityIndicator
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}"
-                    Color="{StaticResource Primary}" />
-
                 <CollectionView
                     HeightRequest="260"
                     ItemsSource="{Binding FeaturedRecipes}"
@@ -92,20 +90,21 @@
                                         VerticalOptions="Fill"
                                         ImageFileName="{Binding ImageUri}"
                                         SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
-                                    <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="4">
+                                    <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="4" MinimumHeightRequest="72">
                                         <Label
-                                            FontFamily="OpenSansSemibold"
-                                            FontSize="14"
+                                            FontAttributes="Bold"
+                                            FontSize="15"
                                             LineBreakMode="TailTruncation"
-                                            MaxLines="1"
-                                            Text="{Binding Name}" />
+                                            MaxLines="2"
+                                            Text="{Binding Name}"
+                                            TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                                         <Label
                                             FontSize="12"
                                             Text="{Binding TotalTimeDisplay}"
                                             TextColor="{StaticResource Primary}" />
                                         <Label
                                             FontSize="12"
-                                            Text="{Binding RatingDisplay}"
+                                            Text="{Binding Rating, StringFormat='★ {0:F1}'}"
                                             TextColor="{StaticResource AccentDark}" />
                                     </VerticalStackLayout>
                                 </Grid>
@@ -158,6 +157,13 @@
                         Text="{Binding ShakeHint}"
                         TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
                     <Button
+                        Command="{Binding ArmShakeCommand}"
+                        IsVisible="{Binding ShowArmShakeButton}"
+                        MinimumHeightRequest="44"
+                        Style="{StaticResource SecondaryButton}"
+                        Text="{Binding ArmShakeButtonText}"
+                        SemanticProperties.Description="Start shake mode, then move the mouse up and down" />
+                    <Button
                         Command="{Binding RandomRecipeCommand}"
                         MinimumHeightRequest="44"
                         Style="{StaticResource PrimaryButton}"
@@ -185,5 +191,6 @@
 
         </VerticalStackLayout>
     </ScrollView>
+    </RefreshView>
 
 </ContentPage>

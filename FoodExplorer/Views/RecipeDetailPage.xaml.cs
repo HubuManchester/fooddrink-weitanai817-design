@@ -21,13 +21,29 @@ public partial class RecipeDetailPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        Shell.SetTabBarIsVisible(this, false);
+        Shell.SetNavBarIsVisible(this, true);
         ApplyAccessibility();
         _viewModel.StartHardwareFeatures();
     }
 
+    protected override bool OnBackButtonPressed()
+    {
+        _ = _viewModel.GoBackCommand.ExecuteAsync(null);
+        return true;
+    }
+
     protected override async void OnDisappearing()
     {
-        await _viewModel.StopHardwareFeaturesAsync();
+        try
+        {
+            await _viewModel.StopHardwareFeaturesAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[RecipeDetailPage] OnDisappearing: {ex}");
+        }
+
         base.OnDisappearing();
     }
 

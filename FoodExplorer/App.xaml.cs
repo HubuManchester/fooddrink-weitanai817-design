@@ -50,8 +50,8 @@ public partial class App : Application
 
     public void ApplyAccessibilityToPage(Page page)
     {
-        _accessibilityService.ApplyFontScale(page, _settingsService.FontScale);
         _accessibilityService.ApplyHighContrast(page, _settingsService.HighContrast);
+        _accessibilityService.ApplyFontScale(page, _settingsService.FontScale);
     }
 
     private void OnSettingsChanged(object? sender, EventArgs e)

@@ -6,6 +6,7 @@
     xmlns:models="clr-namespace:FoodExplorer.Models"
     xmlns:vm="clr-namespace:FoodExplorer.ViewModels"
     xmlns:converters="clr-namespace:FoodExplorer.Converters"
+    xmlns:services="clr-namespace:FoodExplorer.Services"
     Title="{Binding Title}"
     x:DataType="vm:SettingsViewModel"
     BackgroundColor="{AppThemeBinding Light=#FFF8F5, Dark=#1A1A2E}">
@@ -41,7 +42,8 @@
                             <Label
                                 FontFamily="OpenSansSemibold"
                                 FontSize="16"
-                                Text="Dark Mode" />
+                                Text="Dark Mode"
+                                TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                             <Label
                                 FontSize="12"
                                 Text="Switch between light and dark themes"
@@ -59,15 +61,19 @@
                         <Label
                             FontFamily="OpenSansSemibold"
                             FontSize="16"
-                            Text="Font Size" />
+                            Text="Font Size"
+                            TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                         <Picker
                             ItemDisplayBinding="{Binding ., Converter={StaticResource FontSizeDisplayConverter}}"
                             ItemsSource="{Binding FontSizeOptions}"
                             SelectedItem="{Binding SelectedFontSize}"
                             MinimumHeightRequest="44"
+                            TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                            TitleColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                             SemanticProperties.Description="Select font size" />
                         <Label
-                            FontSize="16"
+                            services:AccessibilityService.SkipFontScale="True"
+                            FontSize="{Binding FontSizePreviewSize}"
                             Text="{Binding FontSizePreview}"
                             TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
                     </VerticalStackLayout>
@@ -81,7 +87,7 @@
 
                     <Grid ColumnDefinitions="*,Auto" MinimumHeightRequest="44">
                         <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
-                            <Label FontFamily="OpenSansSemibold" FontSize="16" Text="Reduce Motion" />
+                            <Label FontFamily="OpenSansSemibold" FontSize="16" Text="Reduce Motion" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                             <Label FontSize="12" Text="Minimise animations for comfort" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
                         </VerticalStackLayout>
                         <Switch
@@ -94,7 +100,7 @@
 
                     <Grid ColumnDefinitions="*,Auto" MinimumHeightRequest="44">
                         <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
-                            <Label FontFamily="OpenSansSemibold" FontSize="16" Text="High Contrast" />
+                            <Label FontFamily="OpenSansSemibold" FontSize="16" Text="High Contrast" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                             <Label FontSize="12" Text="Increase colour contrast for readability" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
                         </VerticalStackLayout>
                         <Switch
@@ -111,7 +117,7 @@
             <Border Style="{StaticResource CardBorder}">
                 <VerticalStackLayout Spacing="8">
                     <Label Style="{StaticResource TitleSmall}" Text="About" SemanticProperties.HeadingLevel="Level2" />
-                    <Label FontSize="14" Text="FoodExplorer v1.0" />
+                    <Label FontSize="14" Text="FoodExplorer v1.0" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
                     <Label
                         FontSize="12"
                         Text="MMU — Mobile Computing Assessment"

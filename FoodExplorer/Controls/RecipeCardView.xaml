@@ -53,10 +53,10 @@
 
             <VerticalStackLayout Grid.Row="1" Padding="12" Spacing="6">
                 <Label
-                    FontFamily="OpenSansSemibold"
+                    FontAttributes="Bold"
                     FontSize="16"
                     LineBreakMode="TailTruncation"
-                    MaxLines="1"
+                    MaxLines="2"
                     Text="{Binding Name}"
                     TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
 
