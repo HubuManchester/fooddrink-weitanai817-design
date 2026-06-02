@@ -70,6 +70,9 @@ public partial class RecipeListViewModel : BaseViewModel
     [ObservableProperty]
     private int _gridSpan = 2;
 
+    [ObservableProperty]
+    private bool _isRefreshing;
+
     public void UpdateLayout(double pageWidth) =>
         GridSpan = _deviceLayoutService.GetRecipeGridSpan(pageWidth);
 
@@ -112,6 +115,9 @@ public partial class RecipeListViewModel : BaseViewModel
     [RelayCommand]
     private async Task LoadRecipesAsync()
     {
+        if (IsRefreshing)
+            return;
+
         await ExecuteAsync(async () =>
         {
             if (!_imagesPreloaded)
@@ -123,6 +129,32 @@ public partial class RecipeListViewModel : BaseViewModel
 
             await ApplyFilterAsync();
         }, "Unable to load recipes.");
+    }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        IsRefreshing = true;
+        try
+        {
+            if (!_imagesPreloaded)
+            {
+                var all = await _recipeService.GetAllRecipesAsync();
+                _imageCacheService.Preload(all.Select(r => r.ImageUri));
+                _imagesPreloaded = true;
+            }
+
+            await ApplyFilterAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[RecipeListViewModel] Refresh: {ex}");
+            ShowValidationMessage("Could not refresh recipes. Please try again.");
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
     }
 
     [RelayCommand]
@@ -167,8 +199,26 @@ public partial class RecipeListViewModel : BaseViewModel
 
             if (!result.Success)
             {
-                if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                if (result.OpenSpeechSettings)
+                {
+                    var openSettings = await DialogService.DisplayConfirmAsync(
+                        "Speech recognition setup",
+                        result.ErrorMessage ?? "Enable online speech recognition in Windows Settings.",
+                        "Open Settings",
+                        "Cancel");
+
+                    if (openSettings)
+                    {
+#if WINDOWS
+                        await Platforms.Windows.WindowsSpeechHelper.TryOpenSpeechSettingsAsync();
+#endif
+                    }
+                }
+                else if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                {
                     ShowValidationMessage(result.ErrorMessage);
+                }
+
                 return;
             }
 

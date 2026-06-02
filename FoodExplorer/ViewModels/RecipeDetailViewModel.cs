@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -17,6 +18,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
     private readonly IHapticService _hapticService;
     private readonly ISettingsService _settingsService;
     private readonly IDeviceLayoutService _deviceLayoutService;
+    private readonly IMapLauncherService _mapLauncherService;
 
     public RecipeDetailViewModel(
         IRecipeService recipeService,
@@ -26,6 +28,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
         IHapticService hapticService,
         ISettingsService settingsService,
         IDeviceLayoutService deviceLayoutService,
+        IMapLauncherService mapLauncherService,
         INavigationService navigationService,
         IDialogService dialogService)
         : base(navigationService, dialogService)
@@ -37,6 +40,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
         _hapticService = hapticService;
         _settingsService = settingsService;
         _deviceLayoutService = deviceLayoutService;
+        _mapLauncherService = mapLauncherService;
         Title = "Recipe Detail";
 
         _sensorService.TiltForward += OnTiltForward;
@@ -88,6 +92,18 @@ public partial class RecipeDetailViewModel : BaseViewModel
     [ObservableProperty]
     private bool _hasLocationStatus;
 
+    public string DetailTotalTime => Recipe?.TotalTimeDisplay ?? "—";
+
+    public string DetailServings =>
+        Recipe is null || Recipe.Servings <= 0 ? "—" : Recipe.Servings.ToString();
+
+    public string DetailCalories =>
+        Recipe is null || Recipe.CaloriesPerServing <= 0 ? "—" : Recipe.CaloriesPerServing.ToString();
+
+    public string DetailRating => Recipe?.RatingDisplay ?? "—";
+
+    public bool HasCapturedPhoto => CapturedPhoto is not null;
+
     public void UpdateLayout(double pageWidth)
     {
         IsWideLayout = _deviceLayoutService.IsTablet(pageWidth);
@@ -98,6 +114,24 @@ public partial class RecipeDetailViewModel : BaseViewModel
     {
         if (value > 0)
             _ = LoadRecipeAsync();
+    }
+
+    partial void OnRecipeChanged(Recipe? value)
+    {
+        NotifyDetailFieldsChanged();
+    }
+
+    partial void OnCapturedPhotoChanged(ImageSource? value)
+    {
+        OnPropertyChanged(nameof(HasCapturedPhoto));
+    }
+
+    private void NotifyDetailFieldsChanged()
+    {
+        OnPropertyChanged(nameof(DetailTotalTime));
+        OnPropertyChanged(nameof(DetailServings));
+        OnPropertyChanged(nameof(DetailCalories));
+        OnPropertyChanged(nameof(DetailRating));
     }
 
     public void StartHardwareFeatures()
@@ -111,7 +145,11 @@ public partial class RecipeDetailViewModel : BaseViewModel
         if (_sensorService.IsGyroscopeSupported)
         {
             _sensorService.StartGyroscope();
+#if WINDOWS
+            SensorHint = "Tilt your device, or scroll the mouse wheel over the page, to change steps.";
+#else
             SensorHint = "Tilt phone forward/back to change instruction steps.";
+#endif
         }
         else
         {
@@ -126,10 +164,20 @@ public partial class RecipeDetailViewModel : BaseViewModel
 
     public async Task StopHardwareFeaturesAsync()
     {
-        _sensorService.StopGyroscope();
-        _sensorService.StopCompass();
-        await _speechNarrationService.StopAsync();
-        IsNarrating = false;
+        try
+        {
+            _sensorService.StopGyroscope();
+            _sensorService.StopCompass();
+            await _speechNarrationService.StopAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[RecipeDetailViewModel] StopHardwareFeatures: {ex}");
+        }
+        finally
+        {
+            IsNarrating = false;
+        }
     }
 
     [RelayCommand]
@@ -168,11 +216,22 @@ public partial class RecipeDetailViewModel : BaseViewModel
 
             CurrentStepIndex = InstructionSteps.Count > 0 ? 1 : 0;
             UpdateStepHighlights();
+            NotifyDetailFieldsChanged();
         }, "Unable to load recipe details.");
     }
 
     [RelayCommand]
-    private async Task CapturePhotoAsync()
+    private Task CapturePhotoAsync() =>
+        SetDishPhotoAsync(_cameraService.CapturePhotoAsync(), "Dish photo captured!", "capture");
+
+    [RelayCommand]
+    private Task PickPhotoFromGalleryAsync() =>
+        SetDishPhotoAsync(_cameraService.PickPhotoAsync(), "Dish photo added from gallery!", "gallery");
+
+    private async Task SetDishPhotoAsync(
+        Task<CameraCaptureResult> photoTask,
+        string successMessage,
+        string source)
     {
         if (Recipe is null)
             return;
@@ -182,29 +241,30 @@ public partial class RecipeDetailViewModel : BaseViewModel
 
         try
         {
-            var result = await _cameraService.CapturePhotoAsync();
+            var result = await photoTask;
 
             if (!result.Success || result.Image is null)
             {
-                if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
-                {
-                    PhotoStatusMessage = result.ErrorMessage;
-                    HasPhotoStatus = true;
-                    _hapticService.PerformError();
-                }
+                PhotoStatusMessage = string.IsNullOrWhiteSpace(result.ErrorMessage)
+                    ? "Photo selection was cancelled."
+                    : result.ErrorMessage;
+                HasPhotoStatus = true;
+                _hapticService.PerformError();
                 return;
             }
 
             CapturedPhoto = result.Image;
-            PhotoStatusMessage = "Dish photo captured successfully!";
+            PhotoStatusMessage = successMessage;
             HasPhotoStatus = true;
             _hapticService.PerformSuccess();
-            SemanticScreenReader.Announce("Dish photo captured.");
+            SemanticScreenReader.Announce(source == "gallery"
+                ? "Dish photo selected from gallery."
+                : "Dish photo captured.");
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[RecipeDetailViewModel] Camera: {ex}");
-            PhotoStatusMessage = "Could not capture photo. Please try again.";
+            System.Diagnostics.Debug.WriteLine($"[RecipeDetailViewModel] Photo ({source}): {ex}");
+            PhotoStatusMessage = "Could not add photo. Please try again.";
             HasPhotoStatus = true;
             _hapticService.PerformError();
         }
@@ -221,13 +281,30 @@ public partial class RecipeDetailViewModel : BaseViewModel
         NarrationStatusMessage = "Reading recipe aloud…";
         _hapticService.PerformClick();
 
-        var result = await _speechNarrationService.SpeakAsync(text);
-        IsNarrating = false;
+        try
+        {
+            var result = await _speechNarrationService.SpeakAsync(text);
 
-        if (!result.Success && !string.IsNullOrWhiteSpace(result.ErrorMessage))
-            NarrationStatusMessage = result.ErrorMessage;
-        else
+            if (!result.Success)
+            {
+                NarrationStatusMessage = result.ErrorMessage ?? "Text-to-speech failed.";
+                _hapticService.PerformError();
+                return;
+            }
+
             NarrationStatusMessage = "Narration finished.";
+            _hapticService.PerformSuccess();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[RecipeDetailViewModel] Narration: {ex}");
+            NarrationStatusMessage = "Text-to-speech failed. Please try again.";
+            _hapticService.PerformError();
+        }
+        finally
+        {
+            IsNarrating = false;
+        }
     }
 
     [RelayCommand]
@@ -330,11 +407,28 @@ public partial class RecipeDetailViewModel : BaseViewModel
             }
 
             var cuisine = string.IsNullOrWhiteSpace(Recipe.Cuisine) ? "restaurant" : Recipe.Cuisine;
+            var searchQuery = $"{cuisine} restaurants";
+
+            LocationStatusMessage = "📍 Opening maps…";
+            var mapResult = await _mapLauncherService.OpenNearbySearchAsync(
+                location.Latitude,
+                location.Longitude,
+                searchQuery);
+
+            if (!mapResult.Success)
+            {
+                LocationStatusMessage = mapResult.ErrorMessage
+                    ?? "Could not open maps. Install Google Maps and try again.";
+                HasLocationStatus = true;
+                _hapticService.PerformError();
+                return;
+            }
+
             LocationStatusMessage =
-                $"📍 Your location: {location.Latitude:F4}°, {location.Longitude:F4}°\n" +
-                $"Searching for nearby {cuisine} restaurants…";
+                $"📍 Opened maps for nearby {cuisine} restaurants.\n" +
+                $"Your location: {location.Latitude:F4}°, {location.Longitude:F4}°";
             _hapticService.PerformSuccess();
-            SemanticScreenReader.Announce($"Location found. Searching for {cuisine} restaurants near you.");
+            SemanticScreenReader.Announce($"Opened maps to find {cuisine} restaurants near you.");
         }
         catch (FeatureNotSupportedException)
         {
@@ -402,7 +496,9 @@ public partial class RecipeDetailViewModel : BaseViewModel
     {
         var builder = new StringBuilder();
         builder.Append($"{recipe.Name}. ");
-        builder.Append($"{recipe.TotalTimeDisplay}, {recipe.Servings} servings. ");
+        builder.Append($"{FormatTimeForSpeech(recipe.TotalTimeMinutes)}, ");
+        builder.Append(CultureInfo.InvariantCulture, $"{recipe.Servings} servings. ");
+        builder.Append(CultureInfo.InvariantCulture, $"{recipe.CaloriesPerServing} calories per serving. ");
 
         if (recipe.Ingredients.Count > 0)
         {
@@ -413,8 +509,24 @@ public partial class RecipeDetailViewModel : BaseViewModel
 
         builder.Append("Instructions: ");
         for (var i = 0; i < recipe.Steps.Count; i++)
-            builder.Append($"Step {i + 1}. {recipe.Steps[i]} ");
+            builder.Append(CultureInfo.InvariantCulture, $"Step {i + 1}. {recipe.Steps[i]} ");
 
         return builder.ToString();
+    }
+
+    private static string FormatTimeForSpeech(int totalMinutes)
+    {
+        if (totalMinutes <= 0)
+            return "no time listed";
+
+        if (totalMinutes < 60)
+            return $"{totalMinutes.ToString(CultureInfo.InvariantCulture)} minutes";
+
+        var hours = totalMinutes / 60;
+        var minutes = totalMinutes % 60;
+        if (minutes == 0)
+            return $"{hours.ToString(CultureInfo.InvariantCulture)} hours";
+
+        return $"{hours.ToString(CultureInfo.InvariantCulture)} hours {minutes.ToString(CultureInfo.InvariantCulture)} minutes";
     }
 }

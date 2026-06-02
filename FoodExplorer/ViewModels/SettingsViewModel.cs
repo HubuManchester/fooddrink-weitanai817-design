@@ -39,6 +39,8 @@ public partial class SettingsViewModel : BaseViewModel
     public string FontSizePreview =>
         $"Preview text at {SelectedFontSize.GetDisplayName()} size";
 
+    public double FontSizePreviewSize => 16 * SelectedFontSize.GetScale();
+
     partial void OnIsDarkModeChanged(bool value)
     {
         if (_settingsService.IsDarkMode != value)
@@ -51,6 +53,7 @@ public partial class SettingsViewModel : BaseViewModel
             _settingsService.FontSize = value;
 
         OnPropertyChanged(nameof(FontSizePreview));
+        OnPropertyChanged(nameof(FontSizePreviewSize));
     }
 
     partial void OnReduceMotionChanged(bool value)
@@ -89,5 +92,6 @@ public partial class SettingsViewModel : BaseViewModel
         ReduceMotion = _settingsService.ReduceMotion;
         HighContrast = _settingsService.HighContrast;
         OnPropertyChanged(nameof(FontSizePreview));
+        OnPropertyChanged(nameof(FontSizePreviewSize));
     }
 }

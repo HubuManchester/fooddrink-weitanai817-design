@@ -34,11 +34,30 @@ public partial class HomeViewModel : BaseViewModel
         _deviceLayoutService = deviceLayoutService;
         _imageCacheService = imageCacheService;
         Title = "FoodExplorer";
-        ShakeHint = _settingsService.ReduceMotion
-            ? "Shake disabled (Reduce Motion is on). Use the button below."
-            : _shakeDetectionService.IsSupported
-                ? "📱 Shake your phone for a random recipe!"
-                : "Shake detection is not available on this device.";
+        UpdateShakeHint();
+    }
+
+    private void UpdateShakeHint()
+    {
+        if (_settingsService.ReduceMotion)
+        {
+            ShakeHint = "Shake disabled (Reduce Motion is on). Use the button below.";
+            return;
+        }
+
+        if (!_shakeDetectionService.IsSupported)
+        {
+            ShakeHint = "Shake detection is not available on this device.";
+            return;
+        }
+
+#if WINDOWS
+        ShakeHint = _shakeDetectionService.SupportsManualShakeArm
+            ? "Tap Start Shake Mode, then move the mouse up and down quickly."
+            : "Shake your device for a random recipe!";
+#else
+        ShakeHint = "Shake your phone for a random recipe!";
+#endif
     }
 
     public ObservableCollection<Recipe> FeaturedRecipes { get; } = new();
@@ -50,6 +69,27 @@ public partial class HomeViewModel : BaseViewModel
     [ObservableProperty]
     private double _featuredCardWidth = 200;
 
+    public bool ShowArmShakeButton
+    {
+        get
+        {
+#if WINDOWS
+            return !_settingsService.ReduceMotion && _shakeDetectionService.SupportsManualShakeArm;
+#else
+            return false;
+#endif
+        }
+    }
+
+    [ObservableProperty]
+    private bool _isShakeArmed;
+
+    [ObservableProperty]
+    private string _armShakeButtonText = "Start Shake Mode";
+
+    [ObservableProperty]
+    private bool _isRefreshing;
+
     public void UpdateLayout(double pageWidth) =>
         FeaturedCardWidth = _deviceLayoutService.GetFeaturedCardWidth(pageWidth);
 
@@ -59,15 +99,32 @@ public partial class HomeViewModel : BaseViewModel
         if (_settingsService.ReduceMotion)
             return;
 
-        // Hardware #3: Accelerometer — subscribe to shake events
         _shakeDetectionService.ShakeDetected += OnShakeDetected;
         _shakeDetectionService.StartMonitoring();
+        OnPropertyChanged(nameof(ShowArmShakeButton));
+        UpdateShakeHint();
     }
 
     public void StopShakeMonitoring()
     {
         _shakeDetectionService.ShakeDetected -= OnShakeDetected;
+        _shakeDetectionService.CancelManualShake();
         _shakeDetectionService.StopMonitoring();
+        IsShakeArmed = false;
+        ArmShakeButtonText = "Start Shake Mode";
+    }
+
+    [RelayCommand]
+    private void ArmShake()
+    {
+        if (!_shakeDetectionService.SupportsManualShakeArm)
+            return;
+
+        _shakeDetectionService.ArmManualShake();
+        IsShakeArmed = true;
+        ArmShakeButtonText = "Listening... move up & down";
+        ShakeHint = "Move the mouse up and down quickly (like shaking).";
+        _hapticService.PerformClick();
     }
 
     [RelayCommand]
@@ -76,25 +133,63 @@ public partial class HomeViewModel : BaseViewModel
         if (_dataLoaded)
             return;
 
-        await ExecuteAsync(async () =>
+        if (IsRefreshing)
+            return;
+
+        IsBusy = true;
+        try
         {
-            FeaturedRecipes.Clear();
-            Categories.Clear();
+            await PopulateHomeDataAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[HomeViewModel] Load: {ex}");
+            await DialogService.DisplayAlertAsync("Error", "Unable to load home content. Please try again.");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
 
-            var featured = await _recipeService.GetFeaturedRecipesAsync();
-            var categories = await _recipeService.GetCategoriesAsync();
-            var all = await _recipeService.GetAllRecipesAsync();
+    [RelayCommand]
+    private async Task RefreshDataAsync()
+    {
+        // Do not bail out when IsRefreshing is already true — RefreshView sets it before this command runs.
+        IsRefreshing = true;
+        try
+        {
+            await PopulateHomeDataAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[HomeViewModel] Refresh: {ex}");
+            await DialogService.DisplayAlertAsync("Error", "Unable to refresh. Please try again.");
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
+    }
 
-            _imageCacheService.Preload(all.Select(r => r.ImageUri));
+    private async Task PopulateHomeDataAsync()
+    {
+        FeaturedRecipes.Clear();
+        Categories.Clear();
 
-            foreach (var recipe in featured)
-                FeaturedRecipes.Add(recipe);
+        var featured = await _recipeService.GetFeaturedRecipesAsync();
+        var categories = await _recipeService.GetCategoriesAsync();
+        var all = await _recipeService.GetAllRecipesAsync();
 
-            foreach (var category in categories)
-                Categories.Add(category);
+        _imageCacheService.Preload(all.Select(r => r.ImageUri));
 
-            _dataLoaded = true;
-        });
+        foreach (var recipe in featured)
+            FeaturedRecipes.Add(recipe);
+
+        foreach (var category in categories)
+            Categories.Add(category);
+
+        _dataLoaded = true;
     }
 
     [RelayCommand]
@@ -144,6 +239,10 @@ public partial class HomeViewModel : BaseViewModel
     {
         if (IsBusy)
             return;
+
+        IsShakeArmed = false;
+        ArmShakeButtonText = "Start Shake Mode";
+        UpdateShakeHint();
 
         await ExecuteAsync(async () =>
         {
